@@ -1,36 +1,29 @@
-import { Link, Stack } from "expo-router";
-import { Image, Text, View } from "react-native";
+import { useLayoutEffect, useState } from "react";
+import { View, Button, Text, Image } from "react-native";
+
+import { Stack } from "expo-router";
 
 function LogoTitle() {
-  return (
-    <Image
-      style={{ width: 50, height: 50 }}
-      source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }}
-    />
-  );
+  return <Image style={{ width: 50, height: 50 }} />;
 }
 
 export default function Home() {
+  const [count, setCount] = useState(0);
+
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <>
       <Stack.Screen
         options={{
-          // https://reactnavigation.org/docs/headers#setting-the-header-title
-          title: "My home",
-          // https://reactnavigation.org/docs/headers#adjusting-header-styles
-          headerStyle: { backgroundColor: "#f4511e" },
-          headerTintColor: "#fff",
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
-          // https://reactnavigation.org/docs/headers#replacing-the-title-with-a-custom-component
           headerTitle: (props) => <LogoTitle {...props} />,
+          headerRight: () => (
+            <Button
+              onPress={() => setCount((c) => c + 1)}
+              title="Update count"
+            />
+          ),
         }}
       />
-      <Text>Home Screen</Text>
-      <Link href={{ pathname: "details", params: { name: "Bacon" } }}>
-        Go to Details
-      </Link>
-    </View>
+      <Text>Count: {count}</Text>
+    </>
   );
 }
