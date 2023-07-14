@@ -15,8 +15,8 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <NavigationContainer style={{ backG }}>
         <Stack.Navigator>
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Signup" component={SignupScreen} />
+          {/* <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Signup" component={SignupScreen} /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>

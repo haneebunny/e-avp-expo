@@ -1,9 +1,9 @@
-import React from "react";
+import { useState } from "react";
 import { View, TextInput, Button } from "react-native";
 
 const Signup = () => {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSignup = () => {
     // 회원가입 로직 구현
@@ -11,6 +11,7 @@ const Signup = () => {
 
   return (
     <View>
+      <View></View>
       <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
       <TextInput
         placeholder="Password"
