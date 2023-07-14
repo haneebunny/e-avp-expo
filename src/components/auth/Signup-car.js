@@ -1,10 +1,10 @@
 import styled from "@emotion/native";
-import { Link, Stack } from "expo-router";
+import { Stack } from "expo-router";
 import { useState } from "react";
 import { View, TextInput, Text } from "react-native";
 import RegisterInput from "../common/input/RegisterInput";
 
-const Signup = () => {
+const SignupCar = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -17,7 +17,7 @@ const Signup = () => {
       <Stack.Screen
         options={{
           // https://reactnavigation.org/docs/headers#setting-the-header-title
-          title: "기본 정보 입력",
+          title: "차량 정보 등록",
           // https://reactnavigation.org/docs/headers#adjusting-header-styles
           headerStyle: { backgroundColor: "transparent" },
           headerTintColor: "#000000", // back button style
@@ -42,11 +42,9 @@ const Signup = () => {
           onChangeText={setPassword}
         />
         <RegisterInput />
-        <Link href="/auth/signup/car" asChild>
-          <NextButton onPress={handleSignup} className="w-full h-[60px]">
-            <Text className="m-auto text-white font-bold">다음으로</Text>
-          </NextButton>
-        </Link>
+        <NextButton onPress={handleSignup} className="w-full h-[60px]">
+          <Text className="m-auto text-white font-bold">다음으로</Text>
+        </NextButton>
       </View>
     </>
   );
@@ -59,4 +57,4 @@ const NextButton = styled.Pressable`
   border-radius: 30px;
 `;
 
-export default Signup;
+export default SignupCar;

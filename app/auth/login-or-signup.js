@@ -1,12 +1,17 @@
+import { Stack } from "expo-router";
 import React from "react";
-import { View, Text } from "react-native";
 import LoginOrSignup from "../../src/components/auth/LoginOrSignup";
 
 const LoginPage = () => {
   return (
-    <View>
+    <>
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+      />
       <LoginOrSignup />
-    </View>
+    </>
   );
 };
 

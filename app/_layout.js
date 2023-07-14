@@ -1,6 +1,4 @@
-import { Link, Slot } from "expo-router";
-import { Tabs } from "expo-router/tabs";
-import { Stack } from "expo-router/stack";
+import { Slot } from "expo-router";
 import { Dimensions, SafeAreaView, View } from "react-native";
 import Constants from "expo-constants";
 
@@ -14,16 +12,12 @@ export default function AppLayout() {
           style={{
             paddingTop: Constants.statusBarHeight,
             // paddingBottom: windowHeight,
-            paddingHorizontal: 25,
-            paddingVertical: 50,
+            paddingHorizontal: 0,
+            paddingVertical: 0,
             height: "100%",
           }}
         >
-          <Slot
-            style={{
-              backgroundColor: "pink",
-            }}
-          />
+          <Slot />
         </SafeAreaView>
       </View>
     </>

@@ -1,14 +1,4 @@
-import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  SafeAreaView,
-  Image,
-  Dimensions,
-  Pressable,
-} from "react-native";
+import { View, Text, Image, Dimensions, Pressable } from "react-native";
 import styled, { css } from "@emotion/native";
 import { Link } from "expo-router";
 
@@ -69,6 +59,7 @@ const Container = styled.View`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 30px 40px 30px 40px;
 `;
 
 const LoginButton = styled.Pressable`
