@@ -3,13 +3,15 @@ import { useEffect, useState } from "react";
 import { Link, Stack } from "expo-router";
 import { View, TextInput, Text, Pressable, Modal } from "react-native";
 import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 // function
 import { signUpWithFirebase } from "../../common/api/firebase";
-import { isEmpty } from "../../common/api/function";
+import { isEmpty, restrictToNumbers } from "../../common/api/function";
 
 // components
 import RegisterInput from "../common/input/RegisterInput";
+import { signUpSchema } from "../../common/schema/schema";
 
 const Signup = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -28,8 +30,11 @@ const Signup = () => {
   const {
     control,
     handleSubmit,
+    watch,
     formState: { errors },
+    setError,
   } = useForm({
+    resolver: yupResolver(signUpSchema),
     defaultValues: {
       phoneNumber: "",
       email: "",
@@ -37,6 +42,7 @@ const Signup = () => {
       confirmPassword: "",
       nickname: "",
     },
+    mode: "onChange",
   });
 
   useEffect(() => {
@@ -79,6 +85,8 @@ const Signup = () => {
       console.error(error);
     }
   };
+  console.log(errors.phoneNumber);
+  console.log(errors);
   return (
     <>
       <Stack.Screen
@@ -87,7 +95,7 @@ const Signup = () => {
           title: "기본 정보 입력",
           // https://reactnavigation.org/docs/headers#adjusting-header-styles
           headerStyle: { backgroundColor: "transparent" },
-          headerTintColor: "#000000", // back button style
+          headerTintColor: "#000000", // back button color
           headerTitleStyle: {
             fontWeight: "bold",
             color: "#6D6D70", // "My home" text color
@@ -100,53 +108,97 @@ const Signup = () => {
         }}
       />
       <Container>
-        <View className="w-full flex flex-col items-center ">
+        <View className="w-full flex flex-col items-center">
           {/* 하이픈을 넣어주자 */}
-          <RegisterInput
-            id="phoneNumber"
-            value={inputs.phoneNumber}
-            onChangeText={(value) => handleInputChange("phoneNumber", value)}
-            label="휴대폰 번호"
-            placeholder="휴대폰 번호 입력"
-            type="number-pad"
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <RegisterInput
+                value={restrictToNumbers(value)}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                errorMessage={errors.phoneNumber?.message}
+                label="휴대폰 번호"
+                placeholder="휴대폰 번호를 입력해주세요."
+                type="number-pad"
+              />
+            )}
+            name="phoneNumber"
           />
           {/* 아이디 중복확인 */}
-          <RegisterInput
-            id="email"
-            value={inputs.email}
-            onChangeText={(value) => handleInputChange("email", value)}
-            label="이메일"
-            placeholder="이메일 입력"
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <RegisterInput
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                errorMessage={errors.email?.message}
+                label="이메일"
+                placeholder="이메일을 입력해주세요."
+              />
+            )}
+            name="email"
           />
-          <RegisterInput
-            value={inputs.password}
-            onChangeText={(value) => handleInputChange("password", value)}
-            label="비밀번호"
-            placeholder="영문, 숫자 포함, 최소 8자"
-            secure={true}
+
+          {/* 비밀번호  */}
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <RegisterInput
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                errorMessage={errors.password?.message}
+                label="비밀번호"
+                placeholder="영문, 숫자 포함 최소 8자"
+                secure={true}
+              />
+            )}
+            name="password"
           />
-          <RegisterInput
-            value={inputs.confirmPassword}
-            onChangeText={(value) =>
-              handleInputChange("confirmPassword", value)
-            }
-            label="비밀번호 확인"
-            placeholder="비밀번호를 다시 한 번 입력해주세요."
-            secure={true}
+          {/* 비밀번호 확인 */}
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <RegisterInput
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                errorMessage={errors.confirmPassword?.message}
+                label="비밀번호 확인"
+                placeholder="비밀번호를 다시 한 번 입력해주세요."
+                secure={true}
+              />
+            )}
+            name="confirmPassword"
           />
+
           {/* 닉네임 중복확인 */}
-          <RegisterInput
-            value={inputs.nickname}
-            onChangeText={(value) => handleInputChange("nickname", value)}
-            label="닉네임"
-            placeholder="한글, 영문만 사용, 최대8자"
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <RegisterInput
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                errorMessage={errors.nickname?.message}
+                label="닉네임"
+                placeholder="닉네임을 입력해주세요."
+                isLast={true}
+              />
+            )}
+            name="nickname"
           />
         </View>
         <Pressable onPress={temp}>
           <Text>임시버튼</Text>
         </Pressable>
         <Link href="/auth/signup/car" asChild>
-          <NextButton onPress={handleSignup} className="w-full h-[60px]">
+          <NextButton
+            onPress={handleSubmit(handleSignup)}
+            className="w-full h-[60px]"
+          >
             <Text className="m-auto text-white font-bold">다음으로</Text>
           </NextButton>
         </Link>

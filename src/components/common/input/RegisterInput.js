@@ -7,15 +7,21 @@ export default function RegisterInput(props) {
     placeholder = "",
     secure = false,
     type = "default",
+    isLast = false,
+    errorMessage = "",
     id,
     value,
     onChangeText,
   } = props;
 
   return (
-    <>
+    <View style={{ marginBottom: isLast ? 0 : 10, width: "100%" }}>
       <View className="p-3 w-full h-[75px] flex flex-col justify-between bg-white border border-gray-400">
-        <Text className="text-[12px] text-gray-500">{label}</Text>
+        <View className="flex flex-row gap-2">
+          <Text className="text-[12px] text-gray-500">{label}</Text>
+          <Text className="text-[12px] text-red-600">* {errorMessage}</Text>
+        </View>
+
         <CustomTextInput
           secureTextEntry={secure}
           placeholder={placeholder}
@@ -26,7 +32,7 @@ export default function RegisterInput(props) {
           className="text-"
         />
       </View>
-    </>
+    </View>
   );
 }
 
