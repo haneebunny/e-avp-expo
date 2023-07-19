@@ -48,13 +48,6 @@ const SignupCar = () => {
           <NextButton onPress={handleSignup} className="w-full h-[60px]">
             <Text className="m-auto text-white font-bold">등록하기</Text>
           </NextButton>
-          나의 기분은 힘들게 들떴다가 쉽게 가라앉는다. 내 기분의 목줄을 내가
-          아닌 다른 사람이 잡고 있다. 제일 이해가 안 됐던 것이 재미없는
-          어른들이었는데 이제 그게 나다. 오늘만 결석하면, 차라리 따로 산다면,
-          주말만 오면, 그 시험만 끝나면, 그 학기만 끝나면, 방학만 오면, 그
-          학년만 끝나면, 고3만 지나면, 재수만 끝나면, 연애만 하면, 다시 만날
-          수만 있다면, 내가 좀 더 크면, 그런 사람만 만나면, 취업만 하면, 지금은
-          뭐가 있지? 지금은 뭘 기대하
         </Link>
       </Container>
     </>
