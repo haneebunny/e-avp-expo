@@ -3,6 +3,7 @@ import {
   initializeAuth,
   reactNativeLocalPersistence,
   getAuth,
+  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 
@@ -24,20 +25,22 @@ initializeAuth(app, {
 
 const auth = getAuth();
 
-export const signUpWithFirebase = (email, password) => {
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      // ...
-      console.log("회원가입::", user);
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-
-      console.log("회원가입 실패::", errorMessage);
-    });
+export const signUpWithFirebase = async (email, password) => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
+    console.log("회원가입::", user);
+    // user.displayName = dmdmdmdkdkdkd
+    return user;
+  } catch (error) {
+    const errorMessage = error.message;
+    console.log("회원가입 실패::", errorMessage);
+    return errorMessage;
+  }
 };
 
 // 로그인

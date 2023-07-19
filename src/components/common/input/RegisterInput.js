@@ -3,7 +3,7 @@ import { View, Text, TextInput } from "react-native";
 
 export default function RegisterInput(props) {
   const {
-    name = "",
+    label = "",
     placeholder = "",
     secure = false,
     type = "default",
@@ -15,7 +15,7 @@ export default function RegisterInput(props) {
   return (
     <>
       <View className="p-3 w-full h-[75px] flex flex-col justify-between bg-white border border-gray-400">
-        <Text className="text-[12px] text-gray-500">{name}</Text>
+        <Text className="text-[12px] text-gray-500">{label}</Text>
         <CustomTextInput
           secureTextEntry={secure}
           placeholder={placeholder}
