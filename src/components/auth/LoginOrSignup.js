@@ -44,9 +44,11 @@ const LoginOrSignup = () => {
             <Text className="color-gray-300">기존 회원인가요?</Text>
             <View className="flex-auto border-b border-b-gray-300" />
           </View>
-          <LoginButton onPress={handleLogin} href="/login">
-            <Text className="text-white m-auto font-bold">로그인</Text>
-          </LoginButton>
+          <Link href="/auth/login" asChild>
+            <LoginButton>
+              <Text className="text-white m-auto font-bold">로그인</Text>
+            </LoginButton>
+          </Link>
         </View>
         <View className="w-full flex flex-col items-center gap-1.5">
           <View className="w-full flex flex-row items-center gap-3">

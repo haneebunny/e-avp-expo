@@ -29,6 +29,7 @@ const auth = initializeAuth(app, {
 // 현재 로그인한 사용자 가져오기. 로그인 상태가 아니라면 null
 const user = auth.currentUser;
 
+// 이메일로 회원가입
 export const signUpWithFirebase = async (formData) => {
   console.log(auth.currentUser);
 
@@ -40,35 +41,35 @@ export const signUpWithFirebase = async (formData) => {
     );
     const signUpUser = userCredential.user;
 
+    // 닉네임 설정
     await updateProfile(auth.currentUser, {
       displayName: formData.nickname,
     });
 
     console.log("회원가입::", signUpUser);
-    console.log("현재 로그인::", user);
     return signUpUser;
   } catch (error) {
-    const errorMessage = error.message;
-    console.log("회원가입 실패::", errorMessage);
-    return errorMessage;
+    console.log("회원가입 실패::", error.message);
+    return error.message;
   }
 };
 
-// 로그인
-export const signInWithFirebase = (email, password) => {
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      // ...
-      console.log("로그인::", user);
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
+// 이메일로 로그인
+export const signInWithFirebase = async (formData) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      formData.email,
+      formData.password
+    );
 
-      console.log("로그인 실패::", errorMessage);
-    });
+    const user = userCredential.user;
+    console.log("로그인 성공::", user);
+    return user;
+  } catch (error) {
+    console.log("로그인 실패::", error.message);
+    throw error;
+  }
 };
 
 // const updateUserProfile = async () => {
