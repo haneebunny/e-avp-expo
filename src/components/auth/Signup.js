@@ -17,22 +17,12 @@ const Signup = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalText, setModalText] = useState("");
   const [responseData, setResponseData] = useState("");
-  const [inputs, setInputs] = useState({
-    phoneNumber: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    nickname: "",
-  });
-
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   const {
     control,
     handleSubmit,
     watch,
     formState: { errors },
-    setError,
   } = useForm({
     resolver: yupResolver(signUpSchema),
     defaultValues: {
@@ -46,47 +36,32 @@ const Signup = () => {
   });
 
   useEffect(() => {
-    console.log("re", responseData);
     if (responseData) {
       setModalText(responseData);
       setIsModalVisible(true);
     }
   }, [responseData]);
 
-  const handleInputChange = (field, value) => {
-    console.log(value);
-    setInputs((prevData) => ({
-      ...prevData,
-      [field]: value,
-    }));
-  };
-
-  const handleSignup = () => {
-    // field 하나라도 비었을 시 return
-    if (isEmpty(inputs)) return;
-
-    // email 형식 검사
-    if (!emailRegex.test(inputs.email)) return;
+  const handleSignup = async (formData) => {
+    try {
+      const response = await signUpWithFirebase(formData);
+      console.log("response", response);
+      setResponseData(response);
+    } catch (e) {
+      console.error(error);
+      setResponseData(error.message);
+    }
   };
 
   const handlePhoneNumber = (e) => {};
 
+  // Modal Ok Button
   const handleOkButton = async () => {
     setIsModalVisible(false);
     setModalText("");
     await setResponseData("");
   };
-  const temp = async () => {
-    try {
-      const data = await signUpWithFirebase("id@naver.com", "12311231");
 
-      setResponseData(data);
-    } catch (e) {
-      console.error(error);
-    }
-  };
-  console.log(errors.phoneNumber);
-  console.log(errors);
   return (
     <>
       <Stack.Screen
@@ -191,25 +166,23 @@ const Signup = () => {
             name="nickname"
           />
         </View>
-        <Pressable onPress={temp}>
-          <Text>임시버튼</Text>
-        </Pressable>
+
         <Link href="/auth/signup/car" asChild>
           <NextButton
             onPress={handleSubmit(handleSignup)}
             className="w-full h-[60px]"
           >
-            <Text className="m-auto text-white font-bold">다음으로</Text>
+            <Text className="m-auto text-white font-bold">회원가입</Text>
           </NextButton>
         </Link>
       </Container>
-      <Modal animationType="fade" transparent={true} visible={isModalVisible}>
-        <View className="bg-cyan-100 w-2/3 h-1/3 p-3  justify-center m-auto">
+      <Modal animationType="fade" transparent={true} visible={true}>
+        <ModalView>
           <Text>{modalText}</Text>
           <Pressable onPress={handleOkButton}>
             <Text>확인</Text>
           </Pressable>
-        </View>
+        </ModalView>
       </Modal>
     </>
   );
@@ -229,6 +202,14 @@ const NextButton = styled.Pressable`
   height: 60px;
   background-color: #0c55fa;
   border-radius: 30px;
+`;
+
+const ModalView = styled.View`
+  width: 60%;
+  height: 30%;
+  background-color: papayawhip;
+  justify-content: center;
+  margin: auto;
 `;
 
 export default Signup;
