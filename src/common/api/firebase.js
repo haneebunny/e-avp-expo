@@ -5,6 +5,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -19,23 +20,33 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-initializeAuth(app, {
+const auth = initializeAuth(app, {
   persistence: reactNativeLocalPersistence,
 });
 
-const auth = getAuth();
+// const auth = getAuth();
 
-export const signUpWithFirebase = async (email, password) => {
+// 현재 로그인한 사용자 가져오기. 로그인 상태가 아니라면 null
+const user = auth.currentUser;
+
+export const signUpWithFirebase = async (formData) => {
+  console.log(auth.currentUser);
+
   try {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
-      email,
-      password
+      formData.email,
+      formData.password
     );
-    const user = userCredential.user;
-    console.log("회원가입::", user);
-    // user.displayName = dmdmdmdkdkdkd
-    return user;
+    const signUpUser = userCredential.user;
+
+    await updateProfile(auth.currentUser, {
+      displayName: formData.nickname,
+    });
+
+    console.log("회원가입::", signUpUser);
+    console.log("현재 로그인::", user);
+    return signUpUser;
   } catch (error) {
     const errorMessage = error.message;
     console.log("회원가입 실패::", errorMessage);
@@ -59,3 +70,25 @@ export const signInWithFirebase = (email, password) => {
       console.log("로그인 실패::", errorMessage);
     });
 };
+
+// const updateUserProfile = async () => {
+//   updateProfile(auth.currentUser, {
+//     displayName: "Jane Q. User",
+//     photoURL: "https://example.com/jane-q-user/profile.jpg",
+//   })
+//     .then(() => {
+//       // Profile updated!
+//       // ...
+//     })
+//     .catch((error) => {
+//       // An error occurred
+//       // ...
+//     });
+
+//     try {
+//       const updateUser = await updateProfile(user, {
+//         displayName: "",
+//         phoneNumber: "",
+//       })
+//     }
+// };
