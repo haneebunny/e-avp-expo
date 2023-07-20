@@ -1,6 +1,7 @@
 import { View, Text, Image, Dimensions, Pressable } from "react-native";
 import styled, { css } from "@emotion/native";
 import { Link } from "expo-router";
+import Toast from "react-native-toast-message";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -11,6 +12,14 @@ const LoginOrSignup = () => {
 
   const handleSignup = () => {
     console.log("회원가입 버튼이 클릭되었습니다.");
+  };
+
+  const showToast = (type) => {
+    Toast.show({
+      type: type,
+      text1: "회원가입 성공",
+      text2: "This is some something 👋",
+    });
   };
 
   return (
@@ -26,6 +35,9 @@ const LoginOrSignup = () => {
         />
       </View>
       <View className="w-full flex items-center gap-3">
+        <Text onPress={() => showToast("success")}>성공</Text>
+        <Text onPress={() => showToast("error")}>에러</Text>
+        <Text onPress={() => showToast("tomatoToast")}>토매로</Text>
         <View className="w-full flex flex-col items-center gap-1.5">
           <View className="w-full flex flex-row items-center gap-3">
             <View className="flex-auto border-b border-b-gray-300" />

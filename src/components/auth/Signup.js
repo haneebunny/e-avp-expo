@@ -4,6 +4,7 @@ import { Link, Stack } from "expo-router";
 import { View, TextInput, Text, Pressable, Modal } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Toast from "react-native-toast-message";
 
 // function
 import { signUpWithFirebase } from "../../common/api/firebase";
@@ -22,6 +23,7 @@ const Signup = () => {
     control,
     handleSubmit,
     watch,
+    getValues,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(signUpSchema),
@@ -43,6 +45,8 @@ const Signup = () => {
   }, [responseData]);
 
   const handleSignup = async (formData) => {
+    showToast("success");
+
     try {
       const response = await signUpWithFirebase(formData);
       console.log("response", response);
@@ -54,6 +58,17 @@ const Signup = () => {
   };
 
   const handlePhoneNumber = (e) => {};
+
+  const showToast = (type) => {
+    const formData = getValues();
+    Toast.show({
+      type: type,
+      text1: `${formData.nickname}님, 회원가입이 완료되었습니다.`,
+      text2: `${formData.nickname}님, 회원가입이 완료되었습니다.`,
+      show: true,
+      topOffset: 80,
+    });
+  };
 
   // Modal Ok Button
   const handleOkButton = async () => {
@@ -167,16 +182,17 @@ const Signup = () => {
           />
         </View>
 
-        <Link href="/auth/signup/car" asChild>
-          <NextButton
-            onPress={handleSubmit(handleSignup)}
-            className="w-full h-[60px]"
-          >
-            <Text className="m-auto text-white font-bold">회원가입</Text>
-          </NextButton>
-        </Link>
+        {/* <Link href="/auth/signup/car" asChild> */}
+        <NextButton
+          // onPress={handleSubmit(handleSignup)}
+          onPress={() => showToast("tomatoToast")}
+          className="w-full h-[60px]"
+        >
+          <Text className="m-auto text-white font-bold">회원가입</Text>
+        </NextButton>
+        {/* </Link> */}
       </Container>
-      <Modal animationType="fade" transparent={true} visible={true}>
+      <Modal animationType="fade" transparent={true} visible={false}>
         <ModalView>
           <Text>{modalText}</Text>
           <Pressable onPress={handleOkButton}>
