@@ -1,5 +1,11 @@
 import { Slot } from "expo-router";
-import { Dimensions, SafeAreaView, View, Text } from "react-native";
+import {
+  Dimensions,
+  SafeAreaView,
+  View,
+  Text,
+  KeyboardAvoidingView,
+} from "react-native";
 import Constants from "expo-constants";
 import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 import { color } from "../config/color";
@@ -55,18 +61,21 @@ export default function AppLayout() {
   return (
     <>
       <View>
-        <SafeAreaView
-          style={{
-            paddingTop: Constants.statusBarHeight,
-            // paddingBottom: windowHeight,
-            paddingHorizontal: 0,
-            paddingVertical: 0,
-            height: "100%",
-          }}
-        >
-          <Slot />
-          <Toast config={toastConfig} />
-        </SafeAreaView>
+        <KeyboardAvoidingView behavior="height">
+          <SafeAreaView
+            style={{
+              paddingTop: Constants.statusBarHeight,
+              // paddingBottom: windowHeight,
+              paddingHorizontal: 0,
+              paddingVertical: 0,
+              height: "100%",
+            }}
+          >
+            <Slot />
+
+            <Toast config={toastConfig} />
+          </SafeAreaView>
+        </KeyboardAvoidingView>
       </View>
     </>
   );

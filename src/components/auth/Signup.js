@@ -1,14 +1,13 @@
 import styled from "@emotion/native";
 import { useEffect, useState } from "react";
-import { Link, Stack } from "expo-router";
-import { View, TextInput, Text, Pressable, Modal } from "react-native";
+import { View, TextInput, Text, Pressable } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Toast from "react-native-toast-message";
 
 // function
 import { signUpWithFirebase } from "../../common/api/firebase";
-import { isEmpty, restrictToNumbers } from "../../common/api/function";
+import { restrictToNumbers } from "../../common/api/function";
 
 // components
 import RegisterInput from "../common/input/RegisterInput";
@@ -79,24 +78,6 @@ const Signup = () => {
 
   return (
     <>
-      <Stack.Screen
-        options={{
-          // https://reactnavigation.org/docs/headers#setting-the-header-title
-          title: "기본 정보 입력",
-          // https://reactnavigation.org/docs/headers#adjusting-header-styles
-          headerStyle: { backgroundColor: "transparent" },
-          headerTintColor: "#000000", // back button color
-          headerTitleStyle: {
-            fontWeight: "bold",
-            color: "#6D6D70", // "My home" text color
-          },
-          headerTitleAlign: "center",
-          headerBackTitleStyle: {
-            color: "black", // 모르겠음ㅎ
-          },
-          // https://reactnavigation.org/docs/headers#replacing-the-title-with-a-custom-component
-        }}
-      />
       <Container>
         <View className="w-full flex flex-col items-center">
           {/* 하이픈을 넣어주자 */}
@@ -126,6 +107,7 @@ const Signup = () => {
                 errorMessage={errors.email?.message}
                 label="이메일"
                 placeholder="이메일을 입력해주세요."
+                inputMode="email"
               />
             )}
             name="email"
@@ -174,7 +156,7 @@ const Signup = () => {
                 onBlur={onBlur}
                 errorMessage={errors.nickname?.message}
                 label="닉네임"
-                placeholder="닉네임을 입력해주세요."
+                placeholder="한글, 영문 포함 최대 8자"
                 isLast={true}
               />
             )}
@@ -183,23 +165,14 @@ const Signup = () => {
         </View>
 
         {/* <Link href="/auth/signup/car" asChild> */}
-        <NextButton
+        <SignupButton
           // onPress={handleSubmit(handleSignup)}
           onPress={() => showToast("tomatoToast")}
-          className="w-full h-[60px]"
         >
           <Text className="m-auto text-white font-bold">회원가입</Text>
-        </NextButton>
+        </SignupButton>
         {/* </Link> */}
       </Container>
-      <Modal animationType="fade" transparent={true} visible={false}>
-        <ModalView>
-          <Text>{modalText}</Text>
-          <Pressable onPress={handleOkButton}>
-            <Text>확인</Text>
-          </Pressable>
-        </ModalView>
-      </Modal>
     </>
   );
 };
@@ -213,19 +186,11 @@ const Container = styled.View`
   padding: 30px 40px 30px 40px;
 `;
 
-const NextButton = styled.Pressable`
+const SignupButton = styled.Pressable`
   width: 100%;
   height: 60px;
   background-color: #0c55fa;
   border-radius: 30px;
-`;
-
-const ModalView = styled.View`
-  width: 60%;
-  height: 30%;
-  background-color: papayawhip;
-  justify-content: center;
-  margin: auto;
 `;
 
 export default Signup;

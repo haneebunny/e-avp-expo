@@ -9,6 +9,8 @@ export default function RegisterInput(props) {
     type = "default",
     isLast = false,
     errorMessage = "",
+    inputMode,
+    returnKeyType,
     id,
     value,
     onChangeText,
@@ -26,6 +28,8 @@ export default function RegisterInput(props) {
           secureTextEntry={secure}
           placeholder={placeholder}
           keyboardType={type}
+          inputMode={inputMode}
+          returnKeyType={returnKeyType}
           id={id}
           value={value}
           onChangeText={onChangeText}
