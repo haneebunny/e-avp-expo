@@ -8,7 +8,9 @@ import {
   Text,
   Pressable,
   KeyboardAvoidingView,
+  Keyboard,
 } from "react-native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { color } from "../../../config/color";
 import { signInWithFirebase } from "../../common/api/firebase";
 import { signInSchema } from "../../common/schema/schema";
@@ -49,65 +51,67 @@ export default function Login() {
   };
 
   return (
-    <Container>
-      <View className="pt-[25%]">
-        <Image
-          source={require("assets/img/home-logo.png")}
-          // className="w-{300}"
-          style={{
-            resizeMode: "contain",
-            width: 280,
-          }}
-        />
-      </View>
-      <View className="w-full flex items-center gap-3">
-        <Pressable className="w-10 h-10 bg-pink-200 self-end rounded-3xl">
-          <Text className="text-white m-auto font-bold">>></Text>
-        </Pressable>
-        <View className="w-full flex flex-col items-center gap-y-5">
-          <View className="w-full flex flex-col items-center">
-            <Controller
-              control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <LoginInput
-                  placeholder="이메일을 입력하세요."
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                  inputMode="email"
-                  autoComplete="email"
-                  returnKeyType="next"
-                  selectionColor="pink"
-                  className="mb-2"
-                />
-              )}
-              name="email"
-            />
-
-            <Controller
-              control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <LoginInput
-                  value={value}
-                  onChangeText={onChange}
-                  onBlur={onBlur}
-                  secureTextEntry={true}
-                  placeholder="비밀번호를 입력하세요."
-                />
-              )}
-              name="password"
-            />
-          </View>
-          <Text className="text-red-600 text-[13px]">
-            {errors.email?.message || errors.password?.message}
-          </Text>
-
-          <LoginButton onPress={handleSubmit(handleSignIn)}>
-            <Text className="text-white m-auto font-bold">로그인</Text>
-          </LoginButton>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <Container>
+        <View className=" h-72 bg-blue-200">
+          <Image
+            source={require("assets/img/home-logo.png")}
+            // className="w-{300}"
+            style={{
+              resizeMode: "contain",
+              width: 280,
+            }}
+          />
         </View>
-      </View>
-    </Container>
+        <View className="w-full flex items-center gap-3">
+          <Pressable className="w-10 h-10 bg-pink-200 self-end rounded-3xl">
+            <Text className="text-white m-auto font-bold">>></Text>
+          </Pressable>
+          <View className="w-full flex flex-col items-center gap-y-5">
+            <View className="w-full flex flex-col items-center">
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <LoginInput
+                    placeholder="이메일을 입력하세요."
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                    inputMode="email"
+                    autoComplete="email"
+                    returnKeyType="next"
+                    selectionColor="pink"
+                    className="mb-2"
+                  />
+                )}
+                name="email"
+              />
+
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <LoginInput
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    secureTextEntry={true}
+                    placeholder="비밀번호를 입력하세요."
+                  />
+                )}
+                name="password"
+              />
+            </View>
+            <Text className="text-red-600 text-[13px]">
+              {errors.email?.message || errors.password?.message}
+            </Text>
+
+            <LoginButton onPress={handleSubmit(handleSignIn)}>
+              <Text className="text-white m-auto font-bold">로그인</Text>
+            </LoginButton>
+          </View>
+        </View>
+      </Container>
+    </TouchableWithoutFeedback>
   );
 }
 
