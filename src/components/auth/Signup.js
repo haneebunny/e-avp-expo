@@ -4,6 +4,7 @@ import { View, TextInput, Text, Pressable } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Toast from "react-native-toast-message";
+import { useRouter } from "expo-router";
 
 // function
 import { signUpWithFirebase } from "../../common/api/firebase";
@@ -17,6 +18,8 @@ const Signup = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalText, setModalText] = useState("");
   const [responseData, setResponseData] = useState("");
+
+  const router = useRouter();
 
   const {
     control,
@@ -67,6 +70,7 @@ const Signup = () => {
       show: true,
       topOffset: 80,
     });
+    router.push("/auth/login");
   };
 
   // Modal Ok Button

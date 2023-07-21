@@ -5,6 +5,7 @@ import {
   View,
   Text,
   KeyboardAvoidingView,
+  ScrollView,
 } from "react-native";
 import Constants from "expo-constants";
 import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
@@ -60,23 +61,23 @@ const toastConfig = {
 export default function AppLayout() {
   return (
     <>
-      <View>
-        <KeyboardAvoidingView behavior="height">
-          <SafeAreaView
-            style={{
-              paddingTop: Constants.statusBarHeight,
-              // paddingBottom: windowHeight,
-              paddingHorizontal: 0,
-              paddingVertical: 0,
-              height: "100%",
-            }}
-          >
-            <Slot />
+      <SafeAreaView
+        style={{
+          paddingTop: Constants.statusBarHeight,
+          // paddingBottom: windowHeight,
+          paddingHorizontal: 0,
+          paddingVertical: 0,
 
-            <Toast config={toastConfig} />
-          </SafeAreaView>
+          flex: 1,
+        }}
+      >
+        <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}>
+          <Slot />
         </KeyboardAvoidingView>
-      </View>
+        {/* </ScrollView> */}
+
+        <Toast config={toastConfig} />
+      </SafeAreaView>
     </>
   );
 }
