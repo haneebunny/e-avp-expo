@@ -1,6 +1,6 @@
 import styled from "@emotion/native";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
 import {
   Image,
@@ -14,6 +14,8 @@ import { signInWithFirebase } from "../../common/api/firebase";
 import { signInSchema } from "../../common/schema/schema";
 
 export default function Login() {
+  const router = useRouter();
+
   const {
     control,
     handleSubmit,
@@ -37,6 +39,7 @@ export default function Login() {
       const response = await signInWithFirebase(formData);
       console.log(response);
       // 토스트, 메인창 이동
+      router.push("/");
     } catch (error) {
       setError("email", {
         type: "custom",
