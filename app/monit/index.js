@@ -1,12 +1,17 @@
-import { Suspense, useRef, useState } from 'react';
+import { Suspense, useRef, useState, useEffect } from 'react';
 import { View, Dimensions } from 'react-native';
 
 import * as THREE from 'three';
-import { Canvas, useFrame } from '@react-three/fiber/native';
-import { useGLTF, PerspectiveCamera } from '@react-three/drei/native';
+import { Canvas, useFrame, useThree } from '@react-three/fiber/native';
+import { PerspectiveCamera, useHelper } from '@react-three/drei/native';
 import useControls from "r3f-native-orbitcontrols";
 
-import gateGlbPath from '../../assets/models/gate.glb';
+// parking lot config
+import settings from '../../config/parkingLot/settings';
+
+// parking lot components
+import Gate from '../../src/components/parkingLot/Gate';
+import Floor from '../../src/components/parkingLot/Floor';
 
 function Box(props) {
   // This reference will give us direct access to the mesh
@@ -41,52 +46,7 @@ function Box(props) {
   );
 }
 
-function Gate() {
-    const { nodes, materials } = useGLTF(gateGlbPath);
-    
-    console.log(nodes);
-    console.log(materials);
-  
-    return (
-        <group position={[0, 0, 0]}>
-            <mesh
-                name='1-2 path'
-                castShadow 
-                receiveShadow 
-                geometry={nodes.Cube001.geometry}
-            >
-                <meshPhongMaterial color={`red`} />
-            </mesh>
-            <mesh
-                name='1-2 arrow'
-                castShadow 
-                receiveShadow 
-                geometry={nodes.Cube002.geometry}
-            >
-                <meshPhongMaterial color={`white`} />
-            </mesh>
-            <mesh
-                name='2-3 path'
-                castShadow 
-                receiveShadow 
-                geometry={nodes.Cube001.geometry}
-                // rotation={[0, Math.PI, 0]}
-                rotation-y={Math.PI}
-            >
-                <meshPhongMaterial color={`red`} />
-            </mesh>
-            <mesh
-                name='2-3 arrow'
-                castShadow 
-                receiveShadow 
-                geometry={nodes.Cube002.geometry}
-                rotation={[0, Math.PI, Math.PI]}
-            >
-                <meshPhongMaterial color={`white`} />
-            </mesh>
-        </group>
-    )
-  }
+
 
 export default function Monit() {
     const innerHeight = Dimensions.get('window').height;
@@ -97,13 +57,27 @@ export default function Monit() {
   
     const [OrbitControls, events] = useControls();
     // const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 1000);
-  
+
+    // const camera = useRef(null);
+    // useEffect(() => {
+    //   if(camera.current) {
+    //     useHelper(camera, THREE.CameraHelper, 1, 'hotpink');
+    //   }
+    // }, [camera])
+
     return (
       <View style={{ flex: 1 }} {...events}>
         <Canvas
           dpr={[1, 1]}
-          resize={{ debounce: 0 }}
+          per
+          camera={{
+            position: [-100, 0, -100],
+            fov: 75,
+            near: 0.1,
+            far: 2000,
+          }}
         >
+          <OrbitControls />
           {/* <OrthographicCamera 
               makeDefault
               left={innerWidth / -2} right={innerWidth / 2} 
@@ -113,17 +87,23 @@ export default function Monit() {
               lookAt={new THREE.Vector3(0, 0, 0)}
               zoom={10}
           /> */}
-          <PerspectiveCamera 
+          {/* <PerspectiveCamera
+            makeDefault={true}
+            // ref={camera}
             fov={75}
-            aspect={innerWidth / innerHeight}
+            aspect={innerWidth/innerHeight}
             near={0.1}
             far={1000}
-          />
-          <OrbitControls />
-          <ambientLight />
-          <pointLight position={[10, 10, 10]} />
+            position={new THREE.Vector3(0, 1000, 0)}
+            lookAt={new THREE.Vector3(settings.xGridCnt / 2, 0, settings.zGridCnt / 2)}
+          /> */}
+          
+          <ambientLight position={[]} intensity={0.5} />
+				  {/* <directionalLight position={[settings.xGridCnt / 2, 300, settings.zGridCnt / 2]} /> */}
+          {/* <pointLight position={[10, 10, 10]} /> */}
           <Box position={[-1.2, 0, 0]} />
           <Box position={[1.2, 0, 0]} />
+          <Floor />
           <Suspense fallback={null}>
             <Gate />
           </Suspense>
