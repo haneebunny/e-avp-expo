@@ -12,6 +12,9 @@ import settings from '../../config/parkingLot/settings';
 // parking lot components
 import Gate from '../../src/components/parkingLot/Gate';
 import Floor from '../../src/components/parkingLot/Floor';
+import Wall from '../../src/components/parkingLot/Wall';
+import ParkingArea from '../../src/components/parkingLot/ParkingArea';
+import ParkingSections from '../../src/components/parkingLot/ParkingSesctions'
 
 function Box(props) {
   // This reference will give us direct access to the mesh
@@ -69,41 +72,25 @@ export default function Monit() {
       <View style={{ flex: 1 }} {...events}>
         <Canvas
           dpr={[1, 1]}
-          per
           camera={{
-            position: [-100, 0, -100],
+            position: [0, 1000, -settings.zGridCnt / 2],
             fov: 75,
             near: 0.1,
-            far: 2000,
+            far: 3000,
+            aspect: innerWidth / innerHeight
           }}
         >
-          <OrbitControls />
-          {/* <OrthographicCamera 
-              makeDefault
-              left={innerWidth / -2} right={innerWidth / 2} 
-              top={innerHeight / 2} bottom={innerHeight / -2} 
-              near={0.1} far={1000} 
-              position={new THREE.Vector3(10, 10, 10)}
-              lookAt={new THREE.Vector3(0, 0, 0)}
-              zoom={10}
-          /> */}
-          {/* <PerspectiveCamera
-            makeDefault={true}
-            // ref={camera}
-            fov={75}
-            aspect={innerWidth/innerHeight}
-            near={0.1}
-            far={1000}
-            position={new THREE.Vector3(0, 1000, 0)}
-            lookAt={new THREE.Vector3(settings.xGridCnt / 2, 0, settings.zGridCnt / 2)}
-          /> */}
-          
-          <ambientLight position={[]} intensity={0.5} />
-				  {/* <directionalLight position={[settings.xGridCnt / 2, 300, settings.zGridCnt / 2]} /> */}
-          {/* <pointLight position={[10, 10, 10]} /> */}
+          <OrbitControls dampingFactor={1} target={new THREE.Vector3(settings.xGridCnt / 2, 0, settings.zGridCnt / 2)}/>
+         
+          <axesHelper args={[200]} />
+          <ambientLight intensity={1} />
+				  <directionalLight position={[settings.xGridCnt / 2, 500, settings.zGridCnt / 2]} />
           <Box position={[-1.2, 0, 0]} />
           <Box position={[1.2, 0, 0]} />
           <Floor />
+          <Wall />
+          <ParkingArea />
+          <ParkingSections />
           <Suspense fallback={null}>
             <Gate />
           </Suspense>

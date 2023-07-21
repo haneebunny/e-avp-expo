@@ -1,0 +1,93 @@
+export const parkingSections = [
+    {
+        index: 1,
+        name: '주차구역 1',
+        start: { x: 129, z: 1239 },
+        end: { x: 452, z: 1341 },
+        color: '#C83965',
+        vertical: false,
+        opacity: 0.4,
+        panelWay: 'up',
+        adjustX: -80, 
+        adjustZ: 20,
+        rangeText: '( A36 - A41 )'
+    },
+    {
+        index: 2,
+        name: '주차구역 2',
+        start: { x: 10, z: 747.5 },
+        end: { x: 110, z: 1230 },
+        color: '#DFB7B8',
+        vertical: true,
+        opacity: 0.4,
+        panelWay: 'up',
+        adjustX: -100, 
+        adjustZ: 0,
+        rangeText: '( A27 - A35 )'
+    },
+    {
+        index: 3,
+        name: '주차구역 3',
+        start: { x: 238.5, z: 750 },
+        end: { x: 340, z: 1120 },
+        color: '#DECFE6',
+        vertical: true,
+        opacity: 0.4,
+        panelWay: 'down',
+        adjustX: 110, 
+        adjustZ: -160,
+        rangeText: '( A51 - A57 )'
+    },
+    {
+        index: 4,
+        name: '주차구역 4',
+        start: { x: 10, z: 110 },
+        end: { x: 110, z: 742.5 },
+        color: '#FE9A5F',
+        vertical: true,
+        opacity: 0.2,
+        panelWay: 'up',
+        adjustX: -100, 
+        adjustZ: 0,
+        rangeText: '( A14 - A26 )'
+    },
+    {
+        index: 5,
+        name: '주차구역 5',
+        start: { x: 238.5, z: 300 },
+        end: { x: 340, z: 745 },
+        color: '#5AA28A',
+        vertical: true,
+        opacity: 0.4,
+        panelWay: 'down',
+        adjustX: 105, 
+        adjustZ: -335,
+        rangeText: '( A42 - A50 )'
+    },
+    {
+        index: 6,
+        name: '주차구역 6',
+        start: { x: 130, z: 10 },
+        end: { x: 391, z: 111 },
+        color: '#B5D3C9',
+        vertical: false,
+        opacity: 0.4,
+        panelWay: 'down',
+        adjustX: 70,
+        adjustZ: -185,
+        rangeText: '( A09 - A13 )'
+    },
+    {
+        index: 7,
+        name: '주차구역 7',
+        start: { x: 470, z: 100 },
+        end: { x: 570, z: 500 },
+        color: '#6BB6D6',
+        vertical: true,
+        opacity: 0.4,
+        panelWay: 'down',
+        adjustX: 90, 
+        adjustZ: 60,
+        rangeText: '( A01 - A08 )'
+    }
+];
