@@ -1,6 +1,6 @@
 import styled from "@emotion/native";
 import { useEffect, useState } from "react";
-import { View, TextInput, Text, Pressable } from "react-native";
+import { View, TextInput, Text, Pressable, ScrollView } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Toast from "react-native-toast-message";
@@ -82,101 +82,103 @@ const Signup = () => {
 
   return (
     <>
-      <Container>
-        <View className="w-full flex flex-col items-center">
-          {/* 하이픈을 넣어주자 */}
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <RegisterInput
-                value={restrictToNumbers(value)}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                errorMessage={errors.phoneNumber?.message}
-                label="휴대폰 번호"
-                placeholder="휴대폰 번호를 입력해주세요."
-                type="number-pad"
-              />
-            )}
-            name="phoneNumber"
-          />
-          {/* 아이디 중복확인 */}
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <RegisterInput
-                value={value}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                errorMessage={errors.email?.message}
-                label="이메일"
-                placeholder="이메일을 입력해주세요."
-                inputMode="email"
-              />
-            )}
-            name="email"
-          />
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }} className="h-full">
+        <Container>
+          <View className="w-full flex flex-col items-center">
+            {/* 하이픈을 넣어주자 */}
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <RegisterInput
+                  value={restrictToNumbers(value)}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  errorMessage={errors.phoneNumber?.message}
+                  label="휴대폰 번호"
+                  placeholder="휴대폰 번호를 입력해주세요."
+                  type="number-pad"
+                />
+              )}
+              name="phoneNumber"
+            />
+            {/* 아이디 중복확인 */}
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <RegisterInput
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  errorMessage={errors.email?.message}
+                  label="이메일"
+                  placeholder="이메일을 입력해주세요."
+                  inputMode="email"
+                />
+              )}
+              name="email"
+            />
 
-          {/* 비밀번호  */}
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <RegisterInput
-                value={value}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                errorMessage={errors.password?.message}
-                label="비밀번호"
-                placeholder="영문, 숫자 포함 최소 8자"
-                secure={true}
-              />
-            )}
-            name="password"
-          />
-          {/* 비밀번호 확인 */}
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <RegisterInput
-                value={value}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                errorMessage={errors.confirmPassword?.message}
-                label="비밀번호 확인"
-                placeholder="비밀번호를 다시 한 번 입력해주세요."
-                secure={true}
-              />
-            )}
-            name="confirmPassword"
-          />
+            {/* 비밀번호  */}
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <RegisterInput
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  errorMessage={errors.password?.message}
+                  label="비밀번호"
+                  placeholder="영문, 숫자 포함 최소 8자"
+                  secure={true}
+                />
+              )}
+              name="password"
+            />
+            {/* 비밀번호 확인 */}
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <RegisterInput
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  errorMessage={errors.confirmPassword?.message}
+                  label="비밀번호 확인"
+                  placeholder="비밀번호를 다시 한 번 입력해주세요."
+                  secure={true}
+                />
+              )}
+              name="confirmPassword"
+            />
 
-          {/* 닉네임 중복확인 */}
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <RegisterInput
-                value={value}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                errorMessage={errors.nickname?.message}
-                label="닉네임"
-                placeholder="한글, 영문 포함 최대 8자"
-                isLast={true}
-              />
-            )}
-            name="nickname"
-          />
-        </View>
+            {/* 닉네임 중복확인 */}
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <RegisterInput
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  errorMessage={errors.nickname?.message}
+                  label="닉네임"
+                  placeholder="한글, 영문 포함 최대 8자"
+                  isLast={true}
+                />
+              )}
+              name="nickname"
+            />
+          </View>
 
-        {/* <Link href="/auth/signup/car" asChild> */}
-        <SignupButton
-          // onPress={handleSubmit(handleSignup)}
-          onPress={() => showToast("tomatoToast")}
-        >
-          <Text className="m-auto text-white font-bold">회원가입</Text>
-        </SignupButton>
-        {/* </Link> */}
-      </Container>
+          {/* <Link href="/auth/signup/car" asChild> */}
+          <SignupButton
+            // onPress={handleSubmit(handleSignup)}
+            onPress={() => showToast("tomatoToast")}
+          >
+            <Text className="m-auto text-white font-bold">회원가입</Text>
+          </SignupButton>
+          {/* </Link> */}
+        </Container>
+      </ScrollView>
     </>
   );
 };
@@ -188,6 +190,7 @@ const Container = styled.View`
   justify-content: space-between;
   align-items: center;
   padding: 30px 40px 30px 40px;
+  flex: 1;
 `;
 
 const SignupButton = styled.Pressable`

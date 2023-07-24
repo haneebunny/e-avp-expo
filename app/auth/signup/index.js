@@ -19,6 +19,9 @@ export default function SignupPage() {
           headerBackTitleStyle: {
             color: "black", // 모르겠음ㅎ
           },
+          headerShadowVisible: false,
+          headerBackground: () => {},
+          backgroundColor: "white",
           // https://reactnavigation.org/docs/headers#replacing-the-title-with-a-custom-component
         }}
       />

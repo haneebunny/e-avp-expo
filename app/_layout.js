@@ -10,6 +10,7 @@ import {
 import Constants from "expo-constants";
 import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 import { color } from "../config/color";
+import { NavigationContainer } from "expo-router/src/NavigationContainer";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -61,6 +62,7 @@ const toastConfig = {
 export default function AppLayout() {
   return (
     <>
+      {/* <NavigationContainer> */}
       <SafeAreaView
         style={{
           paddingTop: Constants.statusBarHeight,
@@ -71,13 +73,14 @@ export default function AppLayout() {
           flex: 1,
         }}
       >
-        <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}>
-          <Slot />
-        </KeyboardAvoidingView>
+        {/* <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}> */}
+        <Slot />
+        {/* </KeyboardAvoidingView> */}
         {/* </ScrollView> */}
 
         <Toast config={toastConfig} />
       </SafeAreaView>
+      {/* </NavigationContainer> */}
     </>
   );
 }
