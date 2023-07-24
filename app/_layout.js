@@ -11,6 +11,8 @@ import Constants from "expo-constants";
 import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 import { color } from "../config/color";
 import { NavigationContainer } from "expo-router/src/NavigationContainer";
+import { socket } from "../src/socket";
+import { useEffect } from "react";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -60,6 +62,70 @@ const toastConfig = {
 };
 
 export default function AppLayout() {
+  console.log("socketket");
+  useEffect(() => {
+    // const ws = new WebSocket("ws://10.0.2.2:4000");
+
+    // ws.onopen = () => {
+    //   // connection opened
+    //   ws.send("something"); // send a message
+    // };
+
+    // ws.onmessage = (e) => {
+    //   // a message was received
+    //   console.log(e.data);
+    // };
+
+    // ws.onerror = (e) => {
+    //   // an error occurred
+    //   console.log(e.message);
+    // };
+
+    // ws.onclose = (e) => {
+    //   // connection closed
+    //   console.log(e.code, e.reason);
+    // };
+
+    socket.connect();
+
+    // setSocket(socket);
+
+    if (socket) {
+      console.log("socket ininin ");
+      socket.on("connect", onConnect);
+
+      socket.on("connect_error", (error) => console.log("socket.io:", error));
+
+      socket.on("disconnect", onDisconnect);
+
+      socket.on("chat message", onChatMessage);
+
+      socket.on("notice", onNotice);
+    }
+
+    return () => {
+      socket.disconnect();
+      socket.off("connect", onConnect);
+    };
+  }, []);
+
+  const onConnect = () => {
+    console.log("connected");
+  };
+
+  const onDisconnect = () => {
+    console.log("disconnected");
+  };
+
+  const onChatMessage = (data) => {
+    console.log("chat::", data);
+  };
+
+  const onNotice = (msg) => {
+    console.log(msg);
+    // 기존 배열 복사
+  };
+
   return (
     <>
       {/* <NavigationContainer> */}
