@@ -26,7 +26,6 @@ export default function Login() {
   const {
     control,
     handleSubmit,
-    watch,
     getValues,
     setError,
     formState: { errors },
@@ -44,8 +43,7 @@ export default function Login() {
     console.log(formData);
     try {
       const response = await signInWithFirebase(formData);
-      console.log(response);
-      // 토스트, 메인창 이동
+      showToast();
       router.push("/");
     } catch (error) {
       setError("email", {
@@ -55,6 +53,17 @@ export default function Login() {
     }
   };
 
+  const showToast = () => {
+    const formData = getValues();
+    Toast.show({
+      type: "default",
+      text1: `${formData.nickname}님, 환영합니다.`,
+      show: true,
+      topOffset: 80,
+    });
+
+    router.push("/monit");
+  };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} className="h-full">

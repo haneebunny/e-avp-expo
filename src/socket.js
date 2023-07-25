@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
 const URL =
-  process.env.NODE_ENV === "production" ? undefined : "http://10.0.2.2:4000/";
+  process.env.NODE_ENV === "production" ? undefined : "http://10.0.2.2:3001";
 
 const config = {
   reconnection: true,
