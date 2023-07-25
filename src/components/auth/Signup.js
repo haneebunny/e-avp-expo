@@ -1,10 +1,9 @@
 import styled from "@emotion/native";
 import { useEffect, useState } from "react";
-import { View, TextInput, Text, Pressable, ScrollView } from "react-native";
-import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import Toast from "react-native-toast-message";
 import { useRouter } from "expo-router";
+import { View, Text, ScrollView } from "react-native";
+
+import Toast from "react-native-toast-message";
 
 // function
 import { signUpWithFirebase } from "../../common/api/firebase";
@@ -12,11 +11,13 @@ import { restrictToNumbers } from "../../common/api/function";
 
 // components
 import RegisterInput from "../common/input/RegisterInput";
+
+// validation
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { signUpSchema } from "../../common/schema/schema";
 
 const Signup = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [modalText, setModalText] = useState("");
   const [responseData, setResponseData] = useState("");
 
   const router = useRouter();
@@ -39,45 +40,33 @@ const Signup = () => {
     mode: "onChange",
   });
 
-  useEffect(() => {
-    if (responseData) {
-      setModalText(responseData);
-      setIsModalVisible(true);
-    }
-  }, [responseData]);
-
   const handleSignup = async (formData) => {
-    showToast("success");
-
     try {
       const response = await signUpWithFirebase(formData);
-      console.log("response", response);
       setResponseData(response);
-    } catch (e) {
-      console.error(error);
-      setResponseData(error.message);
+      showToast();
+    } catch (error) {
+      console.log(error);
+      Toast.show({
+        type: "default",
+        text1: `${error.message}`,
+        show: true,
+        topOffset: 80,
+      });
     }
   };
 
   const handlePhoneNumber = (e) => {};
 
-  const showToast = (type) => {
+  const showToast = () => {
     const formData = getValues();
     Toast.show({
-      type: type,
+      type: "default",
       text1: `${formData.nickname}님, 회원가입이 완료되었습니다.`,
-      text2: `${formData.nickname}님, 회원가입이 완료되었습니다.`,
       show: true,
       topOffset: 80,
     });
     router.push("/auth/login");
-  };
-
-  // Modal Ok Button
-  const handleOkButton = async () => {
-    setIsModalVisible(false);
-    setModalText("");
-    await setResponseData("");
   };
 
   return (
@@ -171,8 +160,8 @@ const Signup = () => {
 
           {/* <Link href="/auth/signup/car" asChild> */}
           <SignupButton
-            // onPress={handleSubmit(handleSignup)}
-            onPress={() => showToast("tomatoToast")}
+            onPress={handleSubmit(handleSignup)}
+            // onPress={() => showToast("tomatoToast")}
           >
             <Text className="m-auto text-white font-bold">회원가입</Text>
           </SignupButton>
