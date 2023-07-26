@@ -13,12 +13,9 @@ import { color } from "../config/color";
 import { NavigationContainer } from "expo-router/src/NavigationContainer";
 import { socket } from "../src/socket";
 import { useEffect } from "react";
+import { RecoilRoot } from "recoil";
 
 const toastConfig = {
-  /*
-    Overwrite 'success' type,
-    by modifying the existing `BaseToast` component
-  */
   success: (props) => (
     <BaseToast
       {...props}
@@ -41,13 +38,6 @@ const toastConfig = {
       }}
     />
   ),
-  /*
-    Or create a completely new type - `tomatoToast`,
-    building the layout from scratch.
-
-    I can consume any custom `props` I want.
-    They will be passed when calling the `show` method (see below)
-  */
   default: ({ text1, props }) => (
     <View className=" bg-gray-200 opacity-70 w-4/5 h-10 rounded-3xl p-1">
       <Text className="m-auto text-[12px]">{text1}</Text>
@@ -56,28 +46,27 @@ const toastConfig = {
 };
 
 export default function AppLayout() {
-  
-
   return (
     <>
-      {/* <NavigationContainer> */}
-      <SafeAreaView
-        style={{
-          paddingTop: Constants.statusBarHeight,
-          // paddingBottom: windowHeight,
-          paddingHorizontal: 0,
-          paddingVertical: 0,
+      <RecoilRoot>
+        {/* <NavigationContainer> */}
+        <SafeAreaView
+          style={{
+            paddingTop: Constants.statusBarHeight,
+            paddingHorizontal: 0,
+            paddingVertical: 0,
 
-          flex: 1,
-        }}
-      >
-        {/* <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}> */}
-        <Slot />
-        {/* </KeyboardAvoidingView> */}
-        {/* </ScrollView> */}
-        <Toast config={toastConfig} />
-      </SafeAreaView>
-      {/* </NavigationContainer> */}
+            flex: 1,
+          }}
+        >
+          {/* <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}> */}
+          <Slot />
+          {/* </KeyboardAvoidingView> */}
+          {/* </ScrollView> */}
+          <Toast config={toastConfig} />
+        </SafeAreaView>
+        {/* </NavigationContainer> */}
+      </RecoilRoot>
     </>
   );
 }
