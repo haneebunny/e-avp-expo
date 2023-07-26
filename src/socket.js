@@ -12,9 +12,13 @@ const config = {
 
 // export const socket = io(URL, config);
 
-
-export const socket = io('http://192.168.1.14:3001', {
+// export const socket = io('http://192.168.1.14:3001', {
+//   reconnectionDelay: 3000,
+//   autoConnect: false,
+//   transports: ['websocket']
+// });
+export const socket = io("http://192.168.123.142:3001", {
   reconnectionDelay: 3000,
   autoConnect: false,
-  transports: ['websocket']
+  transports: ["websocket"],
 });
