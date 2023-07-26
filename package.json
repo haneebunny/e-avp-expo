@@ -16,6 +16,7 @@
     "@react-navigation/stack": "6.3.17",
     "@react-three/drei": "^9.78.2",
     "@react-three/fiber": "^8.13.5",
+    "axios": "1.4.0",
     "expo": "~48.0.18",
     "expo-asset": "~8.9.1",
     "expo-build-properties": "~0.6.0",
