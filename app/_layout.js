@@ -56,58 +56,7 @@ const toastConfig = {
 };
 
 export default function AppLayout() {
-  console.log("AppLayout");
-  console.log(socket);
-  useEffect(() => {
-    socket.connect();
-    socket.on("connect", onConnect);
-
-    socket.on("connect_error", (error) => console.log("socket.io:", error));
-
-    socket.on("disconnect", onDisconnect);
-
-    // event
-    // socket.on("canAvp", onCanAvpEvent);
-    socket.on("cctvAvp", onCctvAvpEvent);
-    socket.on("cctvMonit", onCctvMonitEvent);
-    socket.on("avpCarPosition", onAvpCarpositionEvent);
-
-    return () => {
-      // event off
-      // socket.off("canAvp", onCanAvpEvent);
-      socket.off("cctvAvp", onCctvAvpEvent);
-      socket.off("cctvMonit", onCctvMonitEvent);
-      socket.off("avpCarPosition", onAvpCarpositionEvent);
-
-      socket.off("connect", onConnect);
-
-      socket.disconnect();
-    };
-  }, []);
-
-  const onConnect = () => {
-    console.log("connected");
-  };
-
-  const onDisconnect = () => {
-    console.log("disconnected");
-  };
-
-  // function onCanAvpEvent(data) {
-  //   console.log("canAvp", data);
-  // }
-
-  function onCctvAvpEvent(data) {
-    console.log("cctvAvp", data);
-  }
-
-  function onCctvMonitEvent(data) {
-    console.log("cctvMonit", data);
-  }
-
-  function onAvpCarpositionEvent(data) {
-    console.log("avpCarPosition", data);
-  }
+  
 
   return (
     <>

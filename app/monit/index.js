@@ -14,42 +14,12 @@ import Gate from '../../src/components/parkingLot/Gate';
 import Floor from '../../src/components/parkingLot/Floor';
 import Wall from '../../src/components/parkingLot/Wall';
 import ParkingArea from '../../src/components/parkingLot/ParkingArea';
-import ParkingSections from '../../src/components/parkingLot/ParkingSesctions'
+import ParkingSections from '../../src/components/parkingLot/ParkingSesctions';
+import Car from '../../src/components/parkingLot/Car';
+import AvpCar from '../../src/components/parkingLot/AvpCar';
 
-function Box(props) {
-  // This reference will give us direct access to the mesh
-  const mesh = useRef();
-
-  // Set up state for the hovered and active state
-  const [hovered, setHover] = useState(false);
-  const [active, setActive] = useState(false);
-
-  // Rotate mesh every frame, this is outside of React without overhead
-  useFrame(() => {
-    if (mesh && mesh.current) {
-      mesh.current.rotation.x = mesh.current.rotation.y += 0.01;
-    }
-  });
-
-  return (
-    <mesh
-      {...props}
-      ref={mesh}
-      scale={active ? [1.5, 1.5, 1.5] : [1, 1, 1]}
-      onClick={(e) => setActive(!active)}
-      onPointerOver={(e) => setHover(true)}
-      onPointerOut={(e) => setHover(false)}
-    >
-      <boxGeometry attach='geometry' args={[1, 1, 1]} />
-      <meshStandardMaterial
-        attach='material'
-        color={hovered ? 'hotpink' : 'orange'}
-      />
-    </mesh>
-  );
-}
-
-
+// socket io
+import { socket } from '../../src/socket';
 
 export default function Monit() {
     const innerHeight = Dimensions.get('window').height;
@@ -59,14 +29,39 @@ export default function Monit() {
     console.log('innerWidth : ', innerWidth);
   
     const [OrbitControls, events] = useControls();
-    // const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 1000);
 
-    // const camera = useRef(null);
-    // useEffect(() => {
-    //   if(camera.current) {
-    //     useHelper(camera, THREE.CameraHelper, 1, 'hotpink');
-    //   }
-    // }, [camera])
+    useEffect(() => {
+
+      socket.connect();
+
+      function onConnect() {
+        console.log('connected to server.');
+        setIsConnected(true);
+      }
+  
+      function onDisconnect() {
+        console.log('disconnected from server.');
+        setIsConnected(false);
+      }
+  
+      function onError(error) {
+        console.log('error occured on socket.io connection', error);
+      }
+  
+      socket.on('connect', onConnect);
+      socket.on('disconnect', onDisconnect);
+      socket.on('error', onError);
+  
+      return () => {
+        socket.off('connect', onConnect);
+        socket.off('disconnect', onDisconnect);
+        socket.off('error', onError);
+  
+       
+        socket.disconnect();
+      }
+
+    }, []);
 
     return (
       <View style={{ flex: 1 }} {...events}>
@@ -85,14 +80,17 @@ export default function Monit() {
           <axesHelper args={[200]} />
           <ambientLight intensity={1} />
 				  <directionalLight position={[settings.xGridCnt / 2, 500, settings.zGridCnt / 2]} />
-          <Box position={[-1.2, 0, 0]} />
-          <Box position={[1.2, 0, 0]} />
           <Floor />
           <Wall />
           <ParkingArea />
           <ParkingSections />
           <Suspense fallback={null}>
             <Gate />
+          </Suspense>
+
+          {/* <Car /> */}
+          <Suspense fallback={null}>
+            <AvpCar />
           </Suspense>
         </Canvas>
       </View>
