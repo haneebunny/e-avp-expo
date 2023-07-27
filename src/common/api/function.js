@@ -8,3 +8,12 @@ export const restrictToNumbers = (input) => {
   const numbersOnly = input.replace(/\D/g, "");
   return numbersOnly;
 };
+
+// time 시간 템플릿
+export const formatTime = (seconds) => {
+  const minutes = Math.floor(seconds / 60);
+  const secondsRemaining = seconds % 60;
+  return `${minutes.toString().padStart(2, "0")}:${secondsRemaining
+    .toString()
+    .padStart(2, "0")}`;
+};
