@@ -25,7 +25,7 @@ import AvpCar from "../../src/components/parkingLot/AvpCar";
 // socket io
 import { socket } from "../../src/socket";
 
-const URL = "http://192.168.123.142:3001";
+const URL = "http://3.35.50.37:4004";
 
 export default function Monit() {
   const innerHeight = Dimensions.get("window").height;

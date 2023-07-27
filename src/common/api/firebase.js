@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
+import { getFirestore, addDoc, collection } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDDZLvvAhWzwOyNaCHukMjN1jet5N9Pl18",
@@ -20,6 +21,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
+const db = getFirestore(app);
+
 const auth = initializeAuth(app, {
   persistence: reactNativeLocalPersistence,
 });
@@ -31,7 +34,7 @@ const user = auth.currentUser;
 
 // 이메일로 회원가입
 export const signUpWithFirebase = async (formData) => {
-  console.log(auth.currentUser);
+  console.log("회원가입", auth.currentUser);
 
   try {
     const userCredential = await createUserWithEmailAndPassword(
@@ -46,6 +49,14 @@ export const signUpWithFirebase = async (formData) => {
       displayName: formData.nickname,
     });
 
+    const docRef = await addDoc(collection(db, "users"), {
+      email: formData.email,
+      password: formData.password,
+      nickname: formData.nickname,
+      phoneNumber: formData.phoneNumber,
+    });
+
+    console.log("db", docRef);
     console.log("회원가입::", signUpUser);
     return signUpUser;
   } catch (error) {
