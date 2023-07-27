@@ -25,8 +25,8 @@ export default function Car() {
 
   return (
     <>
-      {normalÇarPositions?.map((position) => (
-        <NormalCarGroup position={position} />
+      {normalÇarPositions?.map((position, index) => (
+        <NormalCarGroup key={index} position={position} />
       ))}
     </>
   );
