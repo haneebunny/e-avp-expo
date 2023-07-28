@@ -2,7 +2,6 @@ import { Link } from "expo-router";
 import { Text, View } from "react-native";
 
 export default function DefaultPage() {
-  console.log("defaultPage");
   return (
     <View className="h-full">
       <View className="m-auto flex flex-row">
