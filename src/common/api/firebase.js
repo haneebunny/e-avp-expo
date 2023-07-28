@@ -7,7 +7,15 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
-import { getFirestore, addDoc, collection } from "firebase/firestore";
+import {
+  getFirestore,
+  addDoc,
+  deleteDoc,
+  getDocs,
+  collection,
+  query,
+  where,
+} from "firebase/firestore";
 import Toast from "react-native-toast-message";
 
 const firebaseConfig = {
@@ -33,13 +41,27 @@ const auth = initializeAuth(app, {
 // 현재 로그인한 사용자 가져오기. 로그인 상태가 아니라면 null
 const user = auth.currentUser;
 
-// 이메일로 회원가입
-export const signUpWithFirebase = async (formData) => {
-  console.log("회원가입", auth.currentUser);
-
+// 이메일 중복확인
+export const checkDuplicateEmailWithFirebase = async (email) => {
+  console.log(email);
   try {
     // db 중복 확인
+    const q = query(collection(db, "users"), where("email", "==", email));
 
+    const querySnapshot = await getDocs(q);
+
+    console.log(querySnapshot);
+    return querySnapshot.empty ? false : true;
+  } catch (error) {
+    console.log("check email", error);
+    throw error.message;
+  }
+};
+
+// 이메일로 회원가입
+export const signUpWithFirebase = async (formData) => {
+  let isSaved = false;
+  try {
     Toast.show({
       type: "default",
       text1: "정보 받아오는 중",
@@ -52,6 +74,8 @@ export const signUpWithFirebase = async (formData) => {
       nickname: formData.nickname,
       phoneNumber: formData.phoneNumber,
     });
+
+    isSaved = true;
 
     Toast.show({
       type: "default",
@@ -70,11 +94,25 @@ export const signUpWithFirebase = async (formData) => {
       displayName: formData.nickname,
     });
 
-    console.log("db", docRef);
-    console.log("회원가입::", signUpUser);
     return signUpUser;
   } catch (error) {
     console.log("회원가입 실패::", error);
+
+    if (isSaved) {
+      const q = query(
+        collection(db, "users"),
+        where("email", "==", formData.email)
+      );
+      const querySnapshot = await getDocs(q);
+
+      querySnapshot.forEach(async (doc) => {
+        console.log(doc.id, " => ", doc.data());
+
+        // 해당 문서 삭제
+        await deleteDoc(doc.ref);
+      });
+    }
+
     throw error;
   }
 };

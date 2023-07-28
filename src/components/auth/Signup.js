@@ -1,12 +1,15 @@
 import styled from "@emotion/native";
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, Pressable } from "react-native";
 
 import Toast from "react-native-toast-message";
 
 // function
-import { signUpWithFirebase } from "../../common/api/firebase";
+import {
+  checkDuplicateEmailWithFirebase,
+  signUpWithFirebase,
+} from "../../common/api/firebase";
 import { restrictToNumbers } from "../../common/api/function";
 
 // components
@@ -25,9 +28,8 @@ const Signup = () => {
   const {
     control,
     handleSubmit,
-    watch,
     getValues,
-    formState: { errors },
+    formState: { errors, isSubmitted },
   } = useForm({
     resolver: yupResolver(signUpSchema),
     defaultValues: {
@@ -40,22 +42,29 @@ const Signup = () => {
     mode: "onChange",
   });
 
+  // 회원가입 버튼
   const handleSignup = async (formData) => {
     setResponseData("");
-    console.log("bubuub");
     try {
       const response = await signUpWithFirebase(formData);
-      console.log("signuppage response", response);
       setResponseData(response);
       showToast("signupSuccess");
     } catch (error) {
-      console.log(error);
       Toast.show({
         type: "default",
         text1: `${error.message}`,
         topOffset: 80,
       });
     }
+  };
+
+  const checkDuplicateEmail = () => {
+    const email = getValues().email;
+
+    const isDuplicated = checkDuplicateEmailWithFirebase(email);
+    // true : 중복, false : 통과!
+
+    return isDuplicated;
   };
 
   const handlePhoneNumber = (e) => {};
@@ -96,6 +105,7 @@ const Signup = () => {
                   onChangeText={onChange}
                   onBlur={onBlur}
                   errorMessage={errors.phoneNumber?.message}
+                  isSubmitted={isSubmitted}
                   label="휴대폰 번호"
                   placeholder="휴대폰 번호를 입력해주세요."
                   type="number-pad"
@@ -112,6 +122,7 @@ const Signup = () => {
                   onChangeText={onChange}
                   onBlur={onBlur}
                   errorMessage={errors.email?.message}
+                  isSubmitted={isSubmitted}
                   label="이메일"
                   placeholder="이메일을 입력해주세요."
                   inputMode="email"
@@ -119,6 +130,9 @@ const Signup = () => {
               )}
               name="email"
             />
+            {/* <Pressable onPress={checkDuplicateEmail}>
+              <Text>중복확인</Text>
+            </Pressable> */}
 
             {/* 비밀번호  */}
             <Controller
@@ -129,6 +143,7 @@ const Signup = () => {
                   onChangeText={onChange}
                   onBlur={onBlur}
                   errorMessage={errors.password?.message}
+                  isSubmitted={isSubmitted}
                   label="비밀번호"
                   placeholder="영문, 숫자 포함 최소 8자"
                   secure={true}
@@ -145,6 +160,7 @@ const Signup = () => {
                   onChangeText={onChange}
                   onBlur={onBlur}
                   errorMessage={errors.confirmPassword?.message}
+                  isSubmitted={isSubmitted}
                   label="비밀번호 확인"
                   placeholder="비밀번호를 다시 한 번 입력해주세요."
                   secure={true}
@@ -162,6 +178,7 @@ const Signup = () => {
                   onChangeText={onChange}
                   onBlur={onBlur}
                   errorMessage={errors.nickname?.message}
+                  isSubmitted={isSubmitted}
                   label="닉네임"
                   placeholder="한글, 영문 포함 최대 8자"
                   isLast={true}
