@@ -8,6 +8,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
+import Toast from "react-native-toast-message";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDDZLvvAhWzwOyNaCHukMjN1jet5N9Pl18",
@@ -37,9 +38,29 @@ export const signUpWithFirebase = async (formData) => {
   console.log("회원가입", auth.currentUser);
 
   try {
+    // db 중복 확인
+
+    Toast.show({
+      type: "default",
+      text1: "정보 받아오는 중",
+      topOffset: 80,
+    });
+    // db 저장
+    const docRef = await addDoc(collection(db, "users"), {
+      email: formData.email,
+      password: formData.password,
+      nickname: formData.nickname,
+      phoneNumber: formData.phoneNumber,
+    });
+
+    Toast.show({
+      type: "default",
+      text1: "회원가입 하는 중",
+      topOffset: 80,
+    });
     const userCredential = await createUserWithEmailAndPassword(
       auth,
-      formData.email,
+      "as",
       formData.password
     );
     const signUpUser = userCredential.user;
@@ -49,19 +70,12 @@ export const signUpWithFirebase = async (formData) => {
       displayName: formData.nickname,
     });
 
-    const docRef = await addDoc(collection(db, "users"), {
-      email: formData.email,
-      password: formData.password,
-      nickname: formData.nickname,
-      phoneNumber: formData.phoneNumber,
-    });
-
     console.log("db", docRef);
     console.log("회원가입::", signUpUser);
     return signUpUser;
   } catch (error) {
-    console.log("회원가입 실패::", error.message);
-    return error.message;
+    console.log("회원가입 실패::", error);
+    throw error;
   }
 };
 

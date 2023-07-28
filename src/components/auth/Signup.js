@@ -41,16 +41,18 @@ const Signup = () => {
   });
 
   const handleSignup = async (formData) => {
+    setResponseData("");
+    console.log("bubuub");
     try {
       const response = await signUpWithFirebase(formData);
+      console.log("signuppage response", response);
       setResponseData(response);
-      showToast();
+      showToast("signupSuccess");
     } catch (error) {
       console.log(error);
       Toast.show({
         type: "default",
         text1: `${error.message}`,
-        show: true,
         topOffset: 80,
       });
     }
@@ -58,15 +60,26 @@ const Signup = () => {
 
   const handlePhoneNumber = (e) => {};
 
-  const showToast = () => {
-    const formData = getValues();
-    Toast.show({
-      type: "default",
-      text1: `${formData.nickname}님, 회원가입이 완료되었습니다.`,
-      show: true,
-      topOffset: 80,
-    });
-    router.push("/auth/login");
+  const showToast = (result) => {
+    switch (result) {
+      case "signupSuccess":
+        const formData = getValues();
+        Toast.show({
+          type: "default",
+          text1: `${formData.nickname}님, 회원가입이 완료되었습니다.`,
+          topOffset: 80,
+        });
+        router.push("/auth/login");
+        break;
+
+      case "fail":
+        console.log("fail");
+        break;
+
+      default:
+        console.log("??");
+        break;
+    }
   };
 
   return (
