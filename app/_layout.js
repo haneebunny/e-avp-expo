@@ -10,7 +10,7 @@ import {
 import Constants from "expo-constants";
 import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 import { color } from "../config/color";
-import { NavigationContainer } from "expo-router/src/NavigationContainer";
+
 import { socket } from "../src/socket";
 import { useEffect } from "react";
 import { RecoilRoot } from "recoil";
