@@ -43,14 +43,12 @@ const user = auth.currentUser;
 
 // 이메일 중복확인
 export const checkDuplicateEmailWithFirebase = async (email) => {
-  console.log(email);
   try {
     // db 중복 확인
     const q = query(collection(db, "users"), where("email", "==", email));
 
     const querySnapshot = await getDocs(q);
 
-    console.log(querySnapshot);
     return querySnapshot.empty ? false : true;
   } catch (error) {
     console.log("check email", error);
@@ -98,6 +96,7 @@ export const signUpWithFirebase = async (formData) => {
   } catch (error) {
     console.log("회원가입 실패::", error);
 
+    // db 저장이 됐다면 db에서 삭제
     if (isSaved) {
       const q = query(
         collection(db, "users"),

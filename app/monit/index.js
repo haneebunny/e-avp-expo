@@ -122,58 +122,62 @@ export default function Monit() {
   };
 
   return (
-    <View style={{ flex: 1 }} {...events}>
-      <Canvas
-        dpr={[1, 1]}
-        camera={{
-          position: [0, 1000, -settings.zGridCnt / 2],
-          fov: 75,
-          near: 0.1,
-          far: 3000,
-          aspect: innerWidth / innerHeight,
-        }}
-      >
-        <OrbitControls
-          dampingFactor={1}
-          target={
-            new THREE.Vector3(settings.xGridCnt / 2, 0, settings.zGridCnt / 2)
-          }
-        />
+    <View style={{ flex: 1 }}>
+      <View style={{ flex: 4 }} {...events}>
+        <Canvas
+          dpr={[1, 1]} // Pixel-ratio
+          camera={{
+            position: [0, 1000, -settings.zGridCnt / 2],
+            fov: 85,
+            near: 0.1,
+            far: 3000,
+            aspect: innerWidth / innerHeight,
+          }}
+        >
+          <OrbitControls
+            dampingFactor={1}
+            target={
+              new THREE.Vector3(settings.xGridCnt / 2, 0, settings.zGridCnt / 2)
+            }
+            maxPolarAngle={Math.PI / 2}
+          />
 
-        <axesHelper args={[200]} />
-        <ambientLight intensity={1} />
-        <directionalLight
-          position={[settings.xGridCnt / 2, 500, settings.zGridCnt / 2]}
-        />
-        <Floor />
-        <Wall />
-        <ParkingArea />
-        <ParkingSections />
-        <Suspense fallback={null}>
-          <Gate />
-        </Suspense>
+          <axesHelper args={[200]} />
+          <ambientLight intensity={1} />
+          <directionalLight
+            position={[settings.xGridCnt / 2, 500, settings.zGridCnt / 2]}
+          />
+          <Floor />
+          <Wall />
+          <ParkingArea />
+          <ParkingSections />
+          <Suspense fallback={null}>
+            <Gate />
+          </Suspense>
 
-        {/* <Car /> */}
-        <Suspense fallback={null}>
-          <AvpCar />
-        </Suspense>
-        <Suspense fallback={null}>
-          <Car />
-        </Suspense>
-      </Canvas>
-      <View className="absolute bottom-[10%] self-center gap-y-1">
-        <Text className="text-lg text-gray-400 tracking-widest">
-          {formatTime(time)}
-        </Text>
-        <Pressable onPress={handleDataButton} className="self-center">
-          {hasData ? (
-            <FontAwesome name="stop-circle" size={45} color="#424242" />
-          ) : (
-            <>
-              <FontAwesome name="play-circle" size={45} color="#424242" />
-            </>
-          )}
-        </Pressable>
+          <Suspense fallback={null}>
+            <AvpCar />
+          </Suspense>
+          <Suspense fallback={null}>
+            <Car />
+          </Suspense>
+        </Canvas>
+      </View>
+      <View style={{ flex: 1 }}>
+        <View style={{ flex: 2 }} className="self-center gap-y-1">
+          <Text className="text-lg text-gray-400 tracking-widest">
+            {formatTime(time)}
+          </Text>
+          <Pressable onPress={handleDataButton} className="self-center">
+            {hasData ? (
+              <FontAwesome name="stop-circle" size={45} color="#424242" />
+            ) : (
+              <>
+                <FontAwesome name="play-circle" size={45} color="#424242" />
+              </>
+            )}
+          </Pressable>
+        </View>
       </View>
     </View>
   );
