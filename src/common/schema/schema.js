@@ -1,14 +1,34 @@
 import * as yup from "yup";
+import { checkDuplicateEmailWithFirebase } from "../api/firebase";
+
+// 이메일 중복확인
+export const checkDuplicateEmailWithYup = async (email) => {
+  try {
+    try {
+      const isDuplicated = checkDuplicateEmailWithFirebase(email);
+      return isDuplicated;
+    } catch (error) {
+      console.log(error);
+    }
+  } catch (error) {
+    // 유효성 검사 실패 시 에러 처리
+    console.log("check email in schema::", error);
+    throw error.message;
+  }
+};
 
 export const signUpSchema = yup.object({
   phoneNumber: yup.string().required("필수 입력 항목입니다."),
   email: yup
     .string()
+    .required("필수 입력 항목입니다.")
+    .test("check-email", "중복된 이메일입니다.", async function (value) {
+      return !(await checkDuplicateEmailWithYup(value));
+    })
     .matches(
       /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
       "올바르지 않은 이메일 형식입니다."
-    )
-    .required("필수 입력 항목입니다."),
+    ),
   password: yup
     .string()
     .matches(
