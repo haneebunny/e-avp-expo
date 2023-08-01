@@ -29,6 +29,7 @@ const Signup = () => {
     control,
     handleSubmit,
     getValues,
+    setFocus,
     formState: { errors, isSubmitted },
   } = useForm({
     resolver: yupResolver(signUpSchema),
@@ -96,7 +97,7 @@ const Signup = () => {
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} className="h-full">
         <Container>
           <View className="w-full flex flex-col items-center">
-            {/* 하이픈을 넣어주자 */}
+            {/* 휴대폰 번호 */}
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
@@ -106,6 +107,9 @@ const Signup = () => {
                   onBlur={onBlur}
                   errorMessage={errors.phoneNumber?.message}
                   isSubmitted={isSubmitted}
+                  onSubmitEditing={() => {
+                    setFocus("email");
+                  }} // next 누르면 email 로 focus 이동
                   label="휴대폰 번호"
                   placeholder="휴대폰 번호를 입력해주세요."
                   type="number-pad"
@@ -116,13 +120,17 @@ const Signup = () => {
             {/* 아이디 중복확인 */}
             <Controller
               control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
+              render={({ field: { onChange, onBlur, value, ref } }) => (
                 <RegisterInput
                   value={value}
                   onChangeText={onChange}
                   onBlur={onBlur}
                   errorMessage={errors.email?.message}
                   isSubmitted={isSubmitted}
+                  ref={ref}
+                  onSubmitEditing={() => {
+                    setFocus("password");
+                  }}
                   label="이메일"
                   placeholder="이메일을 입력해주세요."
                   inputMode="email"
@@ -130,20 +138,20 @@ const Signup = () => {
               )}
               name="email"
             />
-            {/* <Pressable onPress={checkDuplicateEmail}>
-              <Text>중복확인</Text>
-            </Pressable> */}
-
             {/* 비밀번호  */}
             <Controller
               control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
+              render={({ field: { onChange, onBlur, value, ref } }) => (
                 <RegisterInput
                   value={value}
                   onChangeText={onChange}
                   onBlur={onBlur}
                   errorMessage={errors.password?.message}
                   isSubmitted={isSubmitted}
+                  ref={ref}
+                  onSubmitEditing={() => {
+                    setFocus("confirmPassword");
+                  }}
                   label="비밀번호"
                   placeholder="영문, 숫자 포함 최소 8자"
                   secure={true}
@@ -154,13 +162,17 @@ const Signup = () => {
             {/* 비밀번호 확인 */}
             <Controller
               control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
+              render={({ field: { onChange, onBlur, value, ref } }) => (
                 <RegisterInput
                   value={value}
                   onChangeText={onChange}
                   onBlur={onBlur}
                   errorMessage={errors.confirmPassword?.message}
                   isSubmitted={isSubmitted}
+                  ref={ref}
+                  onSubmitEditing={() => {
+                    setFocus("nickname");
+                  }}
                   label="비밀번호 확인"
                   placeholder="비밀번호를 다시 한 번 입력해주세요."
                   secure={true}
@@ -172,16 +184,18 @@ const Signup = () => {
             {/* 닉네임 중복확인 */}
             <Controller
               control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
+              render={({ field: { onChange, onBlur, value, ref } }) => (
                 <RegisterInput
                   value={value}
                   onChangeText={onChange}
                   onBlur={onBlur}
                   errorMessage={errors.nickname?.message}
                   isSubmitted={isSubmitted}
+                  ref={ref}
                   label="닉네임"
                   placeholder="한글, 영문 포함 최대 8자"
                   isLast={true}
+                  returnKeyType="done"
                 />
               )}
               name="nickname"

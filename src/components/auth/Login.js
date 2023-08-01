@@ -1,6 +1,6 @@
 import styled from "@emotion/native";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
 import {
   Image,
@@ -10,13 +10,13 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   ScrollView,
-  FlatList,
   Dimensions,
 } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { color } from "../../../config/color";
-import { signInWithFirebase } from "../../common/api/firebase";
+import { signInAsAdmin, signInWithFirebase } from "../../common/api/firebase";
 import { signInSchema } from "../../common/schema/schema";
+import Toast from "react-native-toast-message";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -28,6 +28,7 @@ export default function Login() {
     handleSubmit,
     getValues,
     setError,
+    setFocus,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(signInSchema),
@@ -44,7 +45,6 @@ export default function Login() {
     try {
       const response = await signInWithFirebase(formData);
       showToast();
-      router.push("/");
     } catch (error) {
       setError("email", {
         type: "custom",
@@ -53,6 +53,22 @@ export default function Login() {
     }
   };
 
+  const handleAdminSignIn = async () => {
+    try {
+      await signInAsAdmin();
+      Toast.show({
+        type: "default",
+        text1: "로그인 되었습니다.",
+        topOffset: 80,
+      });
+    } catch (error) {
+      console.log(error);
+      setError("email", {
+        type: "custom",
+        message: "관리자 로그인이 불가능 합니다.",
+      });
+    }
+  };
   const showToast = () => {
     const formData = getValues();
     Toast.show({
@@ -62,7 +78,7 @@ export default function Login() {
       topOffset: 80,
     });
 
-    router.push("/monit");
+    // router.push("/monit");
   };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -79,7 +95,10 @@ export default function Login() {
             />
           </View>
           <View className="w-full flex items-center gap-3">
-            <Pressable className="w-10 h-10 bg-pink-200 self-end rounded-3xl">
+            <Pressable
+              onPress={handleAdminSignIn}
+              className="w-10 h-10 bg-pink-200 self-end rounded-3xl"
+            >
               <Text className="text-white m-auto font-bold">>></Text>
             </Pressable>
             <View className="w-full flex flex-col items-center gap-y-5">
@@ -97,6 +116,9 @@ export default function Login() {
                       returnKeyType="next"
                       selectionColor="pink"
                       className="mb-2"
+                      onSubmitEditing={() => {
+                        setFocus("password");
+                      }}
                     />
                   )}
                   name="email"
@@ -104,13 +126,15 @@ export default function Login() {
 
                 <Controller
                   control={control}
-                  render={({ field: { onChange, onBlur, value } }) => (
+                  render={({ field: { onChange, onBlur, value, ref } }) => (
                     <LoginInput
                       value={value}
                       onChangeText={onChange}
                       onBlur={onBlur}
                       secureTextEntry={true}
+                      ref={ref}
                       placeholder="비밀번호를 입력하세요."
+                      returnKeyType="done"
                     />
                   )}
                   name="password"
