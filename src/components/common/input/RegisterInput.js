@@ -1,7 +1,8 @@
 import styled from "@emotion/native";
+import { forwardRef } from "react";
 import { View, Text, TextInput } from "react-native";
 
-export default function RegisterInput(props) {
+export default forwardRef(function RegisterInput(props, ref) {
   const {
     label = "",
     placeholder = "",
@@ -11,7 +12,9 @@ export default function RegisterInput(props) {
     isSubmitted = false,
     errorMessage = "",
     inputMode,
-    returnKeyType,
+    returnKeyType = "next",
+    blurOnText = false,
+    onSubmitEditing,
     id,
     value,
     onChangeText,
@@ -38,13 +41,16 @@ export default function RegisterInput(props) {
           inputMode={inputMode}
           returnKeyType={returnKeyType}
           id={id}
+          ref={ref}
           value={value}
           onChangeText={onChangeText}
+          blurOnText={blurOnText}
+          onSubmitEditing={onSubmitEditing}
           className="text-"
         />
       </View>
     </View>
   );
-}
+});
 
 const CustomTextInput = styled.TextInput``;

@@ -82,7 +82,7 @@ export const signUpWithFirebase = async (formData) => {
     });
     const userCredential = await createUserWithEmailAndPassword(
       auth,
-      "as",
+      formData.email,
       formData.password
     );
     const signUpUser = userCredential.user;
@@ -134,6 +134,20 @@ export const signInWithFirebase = async (formData) => {
   }
 };
 
+export const signInAsAdmin = async () => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      "admin@alta.net",
+      "admin1231"
+    );
+    const user = userCredential.user;
+    return user;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 // const updateUserProfile = async () => {
 //   updateProfile(auth.currentUser, {
 //     displayName: "Jane Q. User",
