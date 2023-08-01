@@ -97,9 +97,9 @@ export default function Login() {
           <View className="w-full flex items-center gap-3">
             <Pressable
               onPress={handleAdminSignIn}
-              className="w-10 h-10 bg-pink-200 self-end rounded-3xl"
+              className="w-28 h-10 bg-lime-400 self-end rounded-3xl p-2"
             >
-              <Text className="text-white m-auto font-bold">>></Text>
+              <Text className="text-white m-auto font-bold">관리자 로그인</Text>
             </Pressable>
             <View className="w-full flex flex-col items-center gap-y-5">
               <View className="w-full flex flex-col items-center">

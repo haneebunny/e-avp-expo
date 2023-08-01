@@ -59,17 +59,6 @@ const Signup = () => {
     }
   };
 
-  const checkDuplicateEmail = () => {
-    const email = getValues().email;
-
-    const isDuplicated = checkDuplicateEmailWithFirebase(email);
-    // true : 중복, false : 통과!
-
-    return isDuplicated;
-  };
-
-  const handlePhoneNumber = (e) => {};
-
   const showToast = (result) => {
     switch (result) {
       case "signupSuccess":
