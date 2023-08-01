@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
 import React from "react";
+import { options } from "../../config/stack";
 import LoginOrSignup from "../../src/components/auth/LoginOrSignup";
 
 const LoginPage = () => {
@@ -7,6 +8,7 @@ const LoginPage = () => {
     <>
       <Stack.Screen
         options={{
+          // ...options,
           headerShown: false,
         }}
       />

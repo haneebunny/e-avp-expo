@@ -6,23 +6,10 @@ export default function SignupPage() {
     <>
       <Stack.Screen
         options={{
-          // https://reactnavigation.org/docs/headers#setting-the-header-title
           title: "기본 정보 입력",
-          // https://reactnavigation.org/docs/headers#adjusting-header-styles
-          headerStyle: { backgroundColor: "transparent" },
-          headerTintColor: "#000000", // back button color
-          headerTitleStyle: {
-            fontWeight: "bold",
-            color: "#6D6D70", // "My home" text color
+          contentStyle: {
+            backgroundColor: "#e6ebee",
           },
-          headerTitleAlign: "center",
-          headerBackTitleStyle: {
-            color: "black", // 모르겠음ㅎ
-          },
-          headerShadowVisible: false,
-          headerBackground: () => {},
-          backgroundColor: "white",
-          // https://reactnavigation.org/docs/headers#replacing-the-title-with-a-custom-component
         }}
       />
       <Signup />
