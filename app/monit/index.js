@@ -6,7 +6,6 @@ import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber/native";
 import { PerspectiveCamera, useHelper } from "@react-three/drei/native";
 import useControls from "r3f-native-orbitcontrols";
-import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { formatTime } from "../../src/common/api/function";
 
@@ -105,8 +104,6 @@ export default function Monit() {
   };
 
   const handleDataButton = () => {
-    console.log("handleDataButton");
-
     setIsRunning((prev) => !prev);
     setTime(0);
 
@@ -140,6 +137,7 @@ export default function Monit() {
               new THREE.Vector3(settings.xGridCnt / 2, 0, settings.zGridCnt / 2)
             }
             maxPolarAngle={Math.PI / 2}
+            maxZoom={2500}
           />
 
           <axesHelper args={[200]} />

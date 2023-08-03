@@ -61,6 +61,7 @@ export default function Login() {
         text1: "로그인 되었습니다.",
         topOffset: 80,
       });
+      router.push("/monit");
     } catch (error) {
       console.log(error);
       setError("email", {
