@@ -68,7 +68,7 @@ const Signup = () => {
           text1: `${formData.nickname}님, 회원가입이 완료되었습니다.`,
           topOffset: 80,
         });
-        router.push("/auth/login");
+        router.push("/login");
         break;
 
       case "fail":
@@ -191,14 +191,9 @@ const Signup = () => {
             />
           </View>
 
-          {/* <Link href="/auth/signup/car" asChild> */}
-          <SignupButton
-            onPress={handleSubmit(handleSignup)}
-            // onPress={() => showToast("tomatoToast")}
-          >
+          <SignupButton onPress={handleSubmit(handleSignup)}>
             <Text className="m-auto text-white font-bold">회원가입</Text>
           </SignupButton>
-          {/* </Link> */}
         </Container>
       </ScrollView>
     </>

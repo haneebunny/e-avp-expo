@@ -44,7 +44,7 @@ const SignupCar = () => {
             <Text>아하.</Text>
           </Pressable>
         </View>
-        <Link href="/auth/signup/car" asChild>
+        <Link href="/signup/car" asChild>
           <NextButton onPress={handleSignup} className="w-full h-[60px]">
             <Text className="m-auto text-white font-bold">등록하기</Text>
           </NextButton>
