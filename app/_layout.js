@@ -12,7 +12,7 @@ import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 import { color } from "../config/color";
 
 import { socket } from "../src/socket";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { RecoilRoot } from "recoil";
 
 const toastConfig = {
@@ -49,7 +49,6 @@ export default function AppLayout() {
   return (
     <>
       <RecoilRoot>
-        {/* <NavigationContainer> */}
         <SafeAreaView
           style={{
             paddingTop: Constants.statusBarHeight,
@@ -59,13 +58,11 @@ export default function AppLayout() {
             flex: 1,
           }}
         >
-          {/* <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}> */}
-          <Slot />
-          {/* </KeyboardAvoidingView> */}
-          {/* </ScrollView> */}
+          <Suspense fallback={null}>
+            <Slot />
+          </Suspense>
           <Toast config={toastConfig} />
         </SafeAreaView>
-        {/* </NavigationContainer> */}
       </RecoilRoot>
     </>
   );

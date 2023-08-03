@@ -17,11 +17,15 @@ import { color } from "../../../config/color";
 import { signInAsAdmin, signInWithFirebase } from "../../common/api/firebase";
 import { signInSchema } from "../../common/schema/schema";
 import Toast from "react-native-toast-message";
+import { useRecoilState } from "recoil";
+import { userInfoState } from "../../common/store/atom";
 
 const windowHeight = Dimensions.get("window").height;
 
 export default function Login() {
   const router = useRouter();
+
+  const [userInfo, serUserInfo] = useRecoilState(userInfoState);
 
   const {
     control,
@@ -41,10 +45,11 @@ export default function Login() {
   });
 
   const handleSignIn = async (formData) => {
-    console.log(formData);
     try {
       const response = await signInWithFirebase(formData);
+      console.log(response);
       showToast();
+      router.replace("/monit");
     } catch (error) {
       setError("email", {
         type: "custom",
@@ -55,13 +60,21 @@ export default function Login() {
 
   const handleAdminSignIn = async () => {
     try {
-      await signInAsAdmin();
+      const response = await signInAsAdmin();
+      const { accessToken, displayName, email, uid } = response;
+      await serUserInfo({
+        accessToken,
+        displayName,
+        email,
+        uid,
+      });
       Toast.show({
         type: "default",
         text1: "로그인 되었습니다.",
         topOffset: 80,
       });
-      router.push("/monit");
+      console.log(response);
+      router.replace("/monit");
     } catch (error) {
       console.log(error);
       setError("email", {
@@ -78,8 +91,6 @@ export default function Login() {
       show: true,
       topOffset: 80,
     });
-
-    // router.push("/monit");
   };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>

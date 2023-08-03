@@ -23,7 +23,7 @@ const LoginOrSignup = () => {
             <Text className="color-gray-300">기존 회원인가요?</Text>
             <View className="flex-auto border-b border-b-gray-300" />
           </View>
-          <Link href="/auth/login" asChild>
+          <Link href="/login" asChild>
             <LoginButton>
               <Text className="text-white m-auto font-bold">로그인</Text>
             </LoginButton>
@@ -35,7 +35,7 @@ const LoginOrSignup = () => {
             <Text className="color-gray-300">방문이 처음이라면</Text>
             <View className="flex-auto border-b border-b-gray-300" />
           </View>
-          <Link href="/auth/signup" asChild>
+          <Link href="/signup" asChild>
             <SignUpButton>
               <Text className="text-black m-auto font-bold">회원가입</Text>
             </SignUpButton>
