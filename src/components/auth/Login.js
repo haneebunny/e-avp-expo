@@ -60,20 +60,13 @@ export default function Login() {
 
   const handleAdminSignIn = async () => {
     try {
-      const response = await signInAsAdmin();
-      const { accessToken, displayName, email, uid } = response;
-      await serUserInfo({
-        accessToken,
-        displayName,
-        email,
-        uid,
-      });
+      await signInAsAdmin();
+
       Toast.show({
         type: "default",
         text1: "로그인 되었습니다.",
         topOffset: 80,
       });
-      console.log(response);
       router.replace("/monit");
     } catch (error) {
       console.log(error);

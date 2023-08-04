@@ -14,6 +14,7 @@ import { color } from "../config/color";
 import { socket } from "../src/socket";
 import { Suspense, useEffect } from "react";
 import { RecoilRoot } from "recoil";
+import GlobalSetting from "../src/components/common/GlobalSetting";
 
 const toastConfig = {
   success: (props) => (
@@ -59,6 +60,7 @@ export default function AppLayout() {
           }}
         >
           <Suspense fallback={null}>
+            <GlobalSetting />
             <Slot />
           </Suspense>
           <Toast config={toastConfig} />
