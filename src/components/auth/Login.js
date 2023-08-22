@@ -49,7 +49,7 @@ export default function Login() {
       const response = await signInWithFirebase(formData);
       console.log(response);
       showToast();
-      router.replace("/monit");
+      router.replace("/");
     } catch (error) {
       setError("email", {
         type: "custom",
@@ -60,21 +60,14 @@ export default function Login() {
 
   const handleAdminSignIn = async () => {
     try {
-      const response = await signInAsAdmin();
-      const { accessToken, displayName, email, uid } = response;
-      await serUserInfo({
-        accessToken,
-        displayName,
-        email,
-        uid,
-      });
+      await signInAsAdmin();
+
       Toast.show({
         type: "default",
         text1: "로그인 되었습니다.",
         topOffset: 80,
       });
-      console.log(response);
-      router.replace("/monit");
+      router.replace("/home");
     } catch (error) {
       console.log(error);
       setError("email", {

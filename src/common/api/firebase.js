@@ -1,3 +1,4 @@
+import { Redirect } from "expo-router";
 import { initializeApp } from "firebase/app";
 import {
   initializeAuth,
@@ -6,6 +7,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
+  signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -143,6 +146,20 @@ export const signInAsAdmin = async () => {
     );
     const user = userCredential.user;
     return user;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const signOutWithFirebase = async () => {
+  try {
+    const auth = getAuth();
+    console.logauth;
+    const response = await auth.signOut();
+
+    console.log("signOut::", response);
+    return response;
   } catch (error) {
     console.log(error);
     throw error;

@@ -1,5 +1,6 @@
 import { View, Text, Pressable } from "react-native";
 import { useRecoilState } from "recoil";
+import { signOutWithFirebase } from "../../common/api/firebase";
 import { userInfoState } from "../../common/store/atom";
 
 const engToKo = {
@@ -11,6 +12,10 @@ const engToKo = {
 export default function UserInfo() {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
+  const signOut = () => {
+    signOutWithFirebase();
+    // setUserInfo(null);
+  };
   return (
     <View className="items-center">
       <View className="w-2/3">
@@ -19,7 +24,7 @@ export default function UserInfo() {
         <InfoBox label="휴대폰 번호" value={userInfo?.phoneNumber} />
       </View>
 
-      <Pressable>
+      <Pressable onPress={signOut}>
         <Text>로그아웃</Text>
       </Pressable>
       <Pressable>
