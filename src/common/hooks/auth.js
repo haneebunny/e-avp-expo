@@ -14,11 +14,11 @@ export default function useAuth() {
   // 인증 여부에 따라 적절한 경로로 네비게이션을 처리합니다.
   console.log("QQQ");
 
-  if (!user) {
-    router.replace("/");
-  } else {
-    router.replace("/(auth)");
-  }
+  // if (!user) {
+  //   router.replace("/");
+  // } else {
+  //   router.replace("/auth");
+  // }
 
   // 이 hook은 주로 네비게이션 처리를 위해 사용되므로
   // 여기에서는 반환값을 필요로 하지 않습니다.

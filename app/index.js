@@ -7,19 +7,11 @@ export default function DefaultPage() {
   const user = useRecoilValue(userInfoState);
 
   console.log("main", user);
-  if (user) {
-    console.log("aoo");
-    return <Redirect href="/(auth)" />;
-  }
-  return (
-    <>
-      <Stack.Screen
-        options={{
-          // ...options,
-          headerShown: false,
-        }}
-      />
-      <LoginOrSignup />
-    </>
-  );
+
+  console.log();
+  // if (user) {
+  //   console.log("aoo");
+  //   return <Redirect href="/auth" />;
+  // }
+  return <Redirect href="/home" />;
 }

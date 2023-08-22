@@ -155,7 +155,7 @@ export const signInAsAdmin = async () => {
 export const signOutWithFirebase = async () => {
   try {
     const auth = getAuth();
-    console.log(auth);
+    console.logauth;
     const response = await auth.signOut();
 
     console.log("signOut::", response);

@@ -49,7 +49,7 @@ export default function Login() {
       const response = await signInWithFirebase(formData);
       console.log(response);
       showToast();
-      router.replace("/monit");
+      router.replace("/");
     } catch (error) {
       setError("email", {
         type: "custom",
@@ -67,7 +67,7 @@ export default function Login() {
         text1: "로그인 되었습니다.",
         topOffset: 80,
       });
-      router.replace("/monit");
+      router.replace("/home");
     } catch (error) {
       console.log(error);
       setError("email", {

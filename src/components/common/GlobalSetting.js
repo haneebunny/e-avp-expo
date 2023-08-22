@@ -11,9 +11,9 @@ export default function GlobalSetting() {
 
   const router = useRouter();
 
+  console.log(window.location);
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      console.log("변화");
       if (user) {
         const { displayName, email, uid } = user;
 
@@ -24,19 +24,21 @@ export default function GlobalSetting() {
           uid,
         });
 
-        console.log("logfin");
-
         // ...
       } else {
         // 로그아웃
-        console.log("로그아웃");
         setUserInfo(null);
 
-        //
-        router.push("/");
+        router.replace("/home");
       }
     });
-  }, []);
+  }, [auth]);
+
+  // useEffect(() => {
+  //   if (!userInfo) {
+  //     router.replace("/");
+  //   }
+  // }, [userInfo]);
 
   return <></>;
 }

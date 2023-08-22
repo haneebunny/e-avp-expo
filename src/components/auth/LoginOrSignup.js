@@ -23,7 +23,7 @@ const LoginOrSignup = () => {
             <Text className="color-gray-300">기존 회원인가요?</Text>
             <View className="flex-auto border-b border-b-gray-300" />
           </View>
-          <Link href="/login" asChild>
+          <Link href="/auth/login" asChild>
             <LoginButton>
               <Text className="text-white m-auto font-bold">로그인</Text>
             </LoginButton>
